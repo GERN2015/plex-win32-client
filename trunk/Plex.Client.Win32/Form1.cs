@@ -29,6 +29,10 @@ namespace Plex.Client.Win32
         public Form1()
         {
             InitializeComponent();
+
+            ServerSelector selector = new ServerSelector();
+            selector.ShowDialog();
+
             wc = new WebClient();
         }
 

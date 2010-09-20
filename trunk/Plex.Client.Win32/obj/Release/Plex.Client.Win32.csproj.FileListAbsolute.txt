@@ -1,0 +1,10 @@
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\bin\Release\Plex.Client.Win32.exe.config
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\bin\Release\Plex.Client.Win32.exe
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\bin\Release\Plex.Client.Win32.pdb
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\ResolveAssemblyReference.cache
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.csproj.ResolveComReference.cache
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Form1.resources
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Properties.Resources.resources
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.csproj.GenerateResource.Cache
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.exe
+C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.pdb

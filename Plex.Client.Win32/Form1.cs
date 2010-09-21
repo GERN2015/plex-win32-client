@@ -57,6 +57,18 @@ namespace Plex.Client.Win32
             if (e.IsSelected == false)
                 return;
 
+            foreach (ListViewItem itm in listView1.Items)
+            {
+                if (itm.Index != e.ItemIndex)
+                {
+                    itm.ImageIndex = -1;
+                }
+                else
+                {
+                    itm.ImageIndex = 0;
+                }
+            }
+
             XmlNode node = (XmlNode) e.Item.Tag;
 
             bool isThumb = false;
@@ -628,6 +640,26 @@ namespace Plex.Client.Win32
         private void listView1_KeyDown(object sender, KeyEventArgs e)
         {
             Form1_KeyDown(sender, e);
+        }
+
+        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+
+            e.DrawDefault = false;
+
+            Image img = imageList1.Images[0];
+
+            if (e.Item.ImageIndex == 0)
+                e.Graphics.DrawImage(img, new Point(e.Bounds.Left, e.Bounds.Top + 1));
+
+            int newTextY = e.Bounds.Y + ((e.Bounds.Height / 2) - (e.Item.Font.Height / 2));
+
+            Point newLoc = new Point(e.Bounds.Left + img.Width + 1, newTextY);
+            Size newSize = new Size(e.Bounds.Width - img.Width - 1, e.Bounds.Height);
+
+            Rectangle textBounds = new Rectangle( newLoc, newSize );
+
+            e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds);
         }
     }
 }

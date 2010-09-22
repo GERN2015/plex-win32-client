@@ -1,0 +1,13 @@
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\Plex.Client.Win32.exe.config
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.csproj.ResolveComReference.cache
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\Plex.Client.Win32.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\Plex.Client.Win32.pdb
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\ZeroconfService.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\ZeroconfService.xml
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.Form1.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.Properties.Resources.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.ServerSelector.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.csproj.GenerateResource.Cache
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.pdb

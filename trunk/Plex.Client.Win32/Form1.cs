@@ -531,6 +531,32 @@ namespace Plex.Client.Win32
                 if (title == null)
                     text = "<Unknown>";
 
+                XmlAttribute vtype = entry.Attributes["type"];
+
+                if (vtype != null && vtype.Value.CompareTo("episode") == 0)
+                {
+
+                    XmlAttribute gpt = entry.Attributes["grandparentTitle"];
+
+                    if (gpt != null)
+                    {
+                        if (url.Contains("/allLeaves") == false)
+                        {
+                            text = gpt.Value + "\r\nSeason " + entry.Attributes["parentIndex"].Value + " / Episode " + entry.Attributes["index"].Value + "\r\n" + text;
+                        }
+                        else
+                        {
+                            text = "Season " + entry.Attributes["parentIndex"].Value + " / Episode " + entry.Attributes["index"].Value + "\r\n" + text;
+
+                        }
+
+                    }
+                    else
+                    {
+                        text = entry.Attributes["index"].Value + " - " + text;
+                    }
+                }
+
                 ListViewItem item = listView1.Items.Add(text);
 
                 item.Tag = entry;
@@ -652,12 +678,27 @@ namespace Plex.Client.Win32
             if (e.Item.ImageIndex == 0)
                 e.Graphics.DrawImage(img, new Point(e.Bounds.Left, e.Bounds.Top + 1));
 
-            int newTextY = e.Bounds.Y + ((e.Bounds.Height / 2) - (e.Item.Font.Height / 2));
+            int newTextY = e.Bounds.Y;
+
+            if (e.Item.Text.Contains('\n') == false)
+            {
+                newTextY += ((e.Bounds.Height / 2) - (e.Item.Font.Height / 2));
+            }
+            else
+            {
+                newTextY += ((e.Bounds.Height / 2) - ((int) (e.Graphics.MeasureString(e.Item.Text, e.Item.Font).Height / 2)));
+            }
 
             Point newLoc = new Point(e.Bounds.Left + img.Width + 1, newTextY);
             Size newSize = new Size(e.Bounds.Width - img.Width - 1, e.Bounds.Height);
 
             Rectangle textBounds = new Rectangle( newLoc, newSize );
+
+//            if (e.ItemIndex % 2 == 0)
+//           {
+//                e.Graphics.FillRectangle(Brushes.SlateBlue, new Rectangle(e.Bounds.X + img.Width + 1, e.Bounds.Y, e.Bounds.Width - img.Width - 1, e.Bounds.Height));
+                e.DrawFocusRectangle();
+//            }
 
             e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds);
         }

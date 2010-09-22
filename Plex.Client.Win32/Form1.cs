@@ -200,8 +200,8 @@ namespace Plex.Client.Win32
                 path = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
             path += "\\VideoLan\\Vlc\\vlc.exe";
-
             System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("\"" + path + "\"", "\"" + HttpUtility.UrlDecode(url) + "\" :fullscreen");
+
             System.Diagnostics.Process.Start(psi);
         }
 
@@ -354,7 +354,8 @@ namespace Plex.Client.Win32
 
         private static void OpenWebPage(string url)
         {
-            ProcessStartInfo psi = new ProcessStartInfo("chrome.exe", "-kiosk \"" + url + "\"");
+//            ProcessStartInfo psi = new ProcessStartInfo("chrome.exe", "-kiosk \"" + url + "\"");
+            ProcessStartInfo psi = new ProcessStartInfo("IExplore.exe", "-k \"" + url + "\"");
             Process.Start(psi);
         }
 

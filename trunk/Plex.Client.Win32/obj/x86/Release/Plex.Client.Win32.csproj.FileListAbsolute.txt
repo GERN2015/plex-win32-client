@@ -21,3 +21,8 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ZeroconfService.dll
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ZeroconfService.xml
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.ServerSelector.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Interop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\AxInterop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Interop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\AxInterop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.StreamPlayer.resources

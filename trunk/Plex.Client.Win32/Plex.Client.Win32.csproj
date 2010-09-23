@@ -105,6 +105,9 @@
     <EmbeddedResource Include="ServerSelector.resx">
       <DependentUpon>ServerSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StreamPlayer.resx">
+      <DependentUpon>StreamPlayer.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -125,8 +128,30 @@
     <Compile Include="ServerSelector.Designer.cs">
       <DependentUpon>ServerSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="StreamPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StreamPlayer.Designer.cs">
+      <DependentUpon>StreamPlayer.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="AxAXVLC">
+      <Guid>{DF2BBE39-40A8-433B-A279-073F48DA94B6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AXVLC">
+      <Guid>{DF2BBE39-40A8-433B-A279-073F48DA94B6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>

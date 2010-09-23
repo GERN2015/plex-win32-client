@@ -194,13 +194,22 @@ namespace Plex.Client.Win32
             if (HandleIfPlexWebkit(url) )
                 return;
 
+            //test
+
+            StreamPlayer sp = new StreamPlayer();
+            sp.Show();
+            sp.Play(url);
+            return;
+
+            //end test..
+
             string path = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
 
             if (path == null || path.Length == 0)
                 path = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
             path += "\\VideoLan\\Vlc\\vlc.exe";
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("\"" + path + "\"", "\"" + HttpUtility.UrlDecode(url) + "\" :fullscreen");
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("\"" + path + "\"", "\"" + HttpUtility.UrlDecode(url) + "\" --fullscreen --http-continuous");
 
             System.Diagnostics.Process.Start(psi);
         }

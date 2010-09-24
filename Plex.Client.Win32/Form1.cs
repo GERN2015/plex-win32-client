@@ -26,6 +26,8 @@ namespace Plex.Client.Win32
         private Dictionary<string, byte[]> _imageCache = new Dictionary<string, byte[]>();
         private int _lastSelectedIndex = 0;
 
+        private WaitBox _wb = new WaitBox();
+
         public Form1()
         {
             InitializeComponent();
@@ -194,24 +196,11 @@ namespace Plex.Client.Win32
             if (HandleIfPlexWebkit(url) )
                 return;
 
-            //test
-
             StreamPlayer sp = new StreamPlayer();
             sp.Show();
             sp.Play(url);
-            return;
-
-            //end test..
-
-            string path = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-
-            if (path == null || path.Length == 0)
-                path = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-
-            path += "\\VideoLan\\Vlc\\vlc.exe";
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("\"" + path + "\"", "\"" + HttpUtility.UrlDecode(url) + "\" --fullscreen --http-continuous");
-
-            System.Diagnostics.Process.Start(psi);
+            sp.BringToFront();
+            sp.TopMost = true;
         }
 
         private bool HandleIfPlexWebkit(string url)
@@ -363,9 +352,12 @@ namespace Plex.Client.Win32
 
         private static void OpenWebPage(string url)
         {
-//            ProcessStartInfo psi = new ProcessStartInfo("chrome.exe", "-kiosk \"" + url + "\"");
-            ProcessStartInfo psi = new ProcessStartInfo("IExplore.exe", "-k \"" + url + "\"");
-            Process.Start(psi);
+
+            WebPlayer wp = new WebPlayer();
+            wp.Show();
+            wp.Play(url);
+            wp.BringToFront();
+            wp.TopMost = true;
         }
 
         private void listView1_ItemActivate(object sender, EventArgs e)
@@ -485,9 +477,9 @@ namespace Plex.Client.Win32
             SuspendLayout();
 
             _history.Push(url);
-
+            
             string xml = wc.DownloadString(url);
-
+            
             listView1.Clear();
 
             XmlDocument doc = new XmlDocument();
@@ -497,7 +489,7 @@ namespace Plex.Client.Win32
             XmlAttribute summary = doc.SelectSingleNode("//MediaContainer").Attributes["summary"];
 
             if (summary != null)
-                if (summary.Value != null )
+                if (summary.Value != null)
                     label1.Text = summary.Value;
 
             if (conatinerArt != null)
@@ -508,17 +500,16 @@ namespace Plex.Client.Win32
                 ParseEntries(url, entries);
 
             entries = doc.SelectNodes("//MediaContainer/Directory");
-                ParseEntries(url, entries);
+            ParseEntries(url, entries);
 
             if (listView1.Items.Count > 0)
             {
+                listView1.Items[0].Focused = true;
                 listView1.Items[0].Selected = true;
-                listView1.FocusedItem = listView1.Items[0];
             }
 
             ResumeLayout();
         }
-
         private void ParseEntries(string url, XmlNodeList entries)
         {
             Uri uri = new Uri(url);
@@ -633,6 +624,7 @@ namespace Plex.Client.Win32
                 int index = _selectionHistory.Pop();
 
                 FillListFromUrl(url, index);
+
                 listView1.Items[index].Selected = true;
                 listView1.FocusedItem = listView1.Items[index];
 

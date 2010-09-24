@@ -11,3 +11,8 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.csproj.GenerateResource.Cache
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.exe
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.pdb
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Interop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\AxInterop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\Interop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\AxInterop.AXVLC.dll
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.StreamPlayer.resources

@@ -79,5 +79,54 @@ namespace Plex.Client.Win32
                 return;
             }
         }
+
+        private void trackBar1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left)
+            {
+                PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
+                this.axVLCPlugin21_PreviewKeyDown(sender, args );
+                e.Handled = true;
+                return;
+            }
+
+            double val = .01 * axVLCPlugin21.input.Length;
+
+            if (e.KeyCode == Keys.Right)
+            {
+                axVLCPlugin21.input.Time += val;
+                e.Handled = true;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                axVLCPlugin21.input.Time -= val;
+                e.Handled = true;
+                return;
+            }
+
+        }
+
+        private void axVLCPlugin21_MediaPlayerPositionChanged(object sender, AxAXVLC.DVLCEvents_MediaPlayerPositionChangedEvent e)
+        {
+        }
+
+        private void axVLCPlugin21_MediaPlayerOpening(object sender, EventArgs e)
+        {
+        }
+
+        private void axVLCPlugin21_MediaPlayerTimeChanged(object sender, AxAXVLC.DVLCEvents_MediaPlayerTimeChangedEvent e)
+        {
+            trackBar1.Value = e.time;
+        }
+
+        private void axVLCPlugin21_MediaPlayerPlaying(object sender, EventArgs e)
+        {
+            double max = axVLCPlugin21.input.Length;
+
+            if ( ((int)max) > trackBar1.Maximum)
+                this.trackBar1.SetRange(0, (int) max);
+        }
     }
 }

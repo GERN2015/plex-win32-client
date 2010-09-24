@@ -20,6 +20,7 @@ namespace Plex.Client.Win32
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            this.BringToFront();
         }
 
         public void Play(string url)

@@ -24,9 +24,10 @@ namespace Plex.Client.Win32
         private Stack<int> _selectionHistory = new Stack<int>();
 
         private Dictionary<string, byte[]> _imageCache = new Dictionary<string, byte[]>();
-        private int _lastSelectedIndex = 0;
 
         private WaitBox _wb = new WaitBox();
+
+        private System.Threading.ManualResetEvent _mre = new System.Threading.ManualResetEvent(false);
 
         public Form1()
         {
@@ -36,6 +37,7 @@ namespace Plex.Client.Win32
             selector.ShowDialog();
 
             wc = new WebClient();
+            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -43,8 +45,6 @@ namespace Plex.Client.Win32
             string baseuri = FQDN() + "/library/sections/";
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-
-//            string baseuri = FQDN() + "/";
 
             FillListFromUrl(baseuri, 0);
 
@@ -171,6 +171,7 @@ namespace Plex.Client.Win32
             if (node.Attributes["summary"] != null)
                 if (node.Attributes["summary"].Value != null)
                     label1.Text = HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
+
         }
 
         private void LoadGenericArt()
@@ -362,7 +363,7 @@ namespace Plex.Client.Win32
 
         private void listView1_ItemActivate(object sender, EventArgs e)
         {
-            _lastSelectedIndex = listView1.SelectedIndices[0];
+            _selection = 0;
 
             XmlNode node = (XmlNode) listView1.SelectedItems[0].Tag;
 
@@ -424,7 +425,7 @@ namespace Plex.Client.Win32
 
             _selectionHistory.Push(listView1.SelectedIndices[0]);
 
-            FillListFromUrl(url, listView1.SelectedIndices[0]);
+            FillListFromUrl(url, 0);
         }
 
         private string GetArtForNode(XmlNode node, ref bool isThumb)
@@ -472,14 +473,52 @@ namespace Plex.Client.Win32
             return "http://" + Properties.Settings.Default.Server + ":32400";
         }
 
+        private delegate void FillListBoxDelegate(string url, string xml);
+        private int _selection = 0;
+
+        void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                _wb.Stop();
+                MessageBox.Show(e.Error.ToString(), "An Error Occured During the Call");
+                return;
+            }
+
+            if (e.Cancelled == true)
+            {
+                _wb.Stop();
+                MessageBox.Show("The request was cancelled.");
+                return;
+            }
+
+            if (this.InvokeRequired == true)
+            {
+                this.Invoke(new FillListBoxDelegate(FillListBox), new object[] { e.UserState.ToString(), e.Result });
+            }
+            else
+            {
+                FillListBox(e.UserState.ToString(), e.Result);
+            }
+
+        }
+
         private void FillListFromUrl(string url,int selection)
+        {
+            _wb.Start();
+
+            _selection = selection;
+
+            _history.Push(url);
+
+            wc.DownloadStringAsync(new Uri(url), url);
+
+        }
+
+        private void FillListBox(string url, string xml)
         {
             SuspendLayout();
 
-            _history.Push(url);
-            
-            string xml = wc.DownloadString(url);
-            
             listView1.Clear();
 
             XmlDocument doc = new XmlDocument();
@@ -504,11 +543,13 @@ namespace Plex.Client.Win32
 
             if (listView1.Items.Count > 0)
             {
-                listView1.Items[0].Focused = true;
-                listView1.Items[0].Selected = true;
+                listView1.Items[_selection].Focused = true;
+                listView1.Items[_selection].Selected = true;
             }
 
             ResumeLayout();
+
+            _wb.Stop();
         }
         private void ParseEntries(string url, XmlNodeList entries)
         {
@@ -624,10 +665,6 @@ namespace Plex.Client.Win32
                 int index = _selectionHistory.Pop();
 
                 FillListFromUrl(url, index);
-
-                listView1.Items[index].Selected = true;
-                listView1.FocusedItem = listView1.Items[index];
-
                 return;
             }
 
@@ -696,13 +733,20 @@ namespace Plex.Client.Win32
 
             Rectangle textBounds = new Rectangle( newLoc, newSize );
 
-//            if (e.ItemIndex % 2 == 0)
-//           {
-//                e.Graphics.FillRectangle(Brushes.SlateBlue, new Rectangle(e.Bounds.X + img.Width + 1, e.Bounds.Y, e.Bounds.Width - img.Width - 1, e.Bounds.Height));
-                e.DrawFocusRectangle();
-//            }
+            e.DrawFocusRectangle();
 
             e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds);
+        }
+    }
+
+    public class asyncArgs
+    {
+        public System.Threading.ManualResetEvent MRE = new System.Threading.ManualResetEvent(false);
+        public String URL = "";
+        public String XML = "";
+
+        public asyncArgs()
+        {
         }
     }
 }

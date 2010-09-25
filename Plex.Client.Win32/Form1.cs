@@ -735,7 +735,7 @@ namespace Plex.Client.Win32
 
             e.DrawFocusRectangle();
 
-            e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds);
+            e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds, StringFormat.GenericTypographic);
         }
     }
 

@@ -635,6 +635,11 @@ namespace Plex.Client.Win32
                 itm.Tag = quit;
                 itm.ImageIndex = 0;
             }
+            else
+            {
+                listView1.Sort();
+
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)

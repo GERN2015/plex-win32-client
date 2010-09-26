@@ -129,5 +129,10 @@ namespace Plex.Client.Win32
             if ( ((int)max) > trackBar1.Maximum)
                 this.trackBar1.SetRange(0, (int) max);
         }
+
+        private void axVLCPlugin21_MediaPlayerEndReached(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

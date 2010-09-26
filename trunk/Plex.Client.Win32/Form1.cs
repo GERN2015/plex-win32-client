@@ -77,6 +77,31 @@ namespace Plex.Client.Win32
             Image img = null;
             Image old = null;
 
+            string text = "";
+
+            if (node.Attributes["originallyAvailableAt"] != null)
+            {
+                text = "Released: " + node.Attributes["originallyAvailableAt"].Value + "     ";
+            }
+
+            if (node.Attributes["duration"] != null)
+            {
+                int minutes = Int32.Parse(node.Attributes["duration"].Value) / 1000 / 60;
+
+                text += "Runtime: " + minutes.ToString() + " minutes\r\n\r\n";
+            }
+            else
+            {
+                if (text.Trim().Length > 0)
+                    text += "\r\n\r\n";
+            }
+
+            if (node.Attributes["summary"] != null)
+                if (node.Attributes["summary"].Value != null)
+                    text += HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
+            
+            label1.Text = text;
+
             string art = GetArtForNode(node, ref isThumb);
 
             if (art.CompareTo("Quit") == 0)
@@ -95,10 +120,6 @@ namespace Plex.Client.Win32
                     old.Dispose();
 
                 label1.Text = "";
-
-                if (node.Attributes["summary"] != null)
-                    if (node.Attributes["summary"].Value != null)
-                        label1.Text = HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
 
                 return;
             }
@@ -166,11 +187,11 @@ namespace Plex.Client.Win32
                     LoadGenericArt();
             }
 
-            label1.Text = "";
+            //label1.Text = "";
 
-            if (node.Attributes["summary"] != null)
-                if (node.Attributes["summary"].Value != null)
-                    label1.Text = HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
+            //if (node.Attributes["summary"] != null)
+            //    if (node.Attributes["summary"].Value != null)
+            //        label1.Text = HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
 
         }
 

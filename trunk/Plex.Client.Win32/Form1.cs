@@ -223,6 +223,7 @@ namespace Plex.Client.Win32
             sp.Play(url);
             sp.BringToFront();
             sp.TopMost = true;
+
         }
 
         private bool HandleIfPlexWebkit(string url)

@@ -16,11 +16,14 @@ namespace Plex.Client.Win32
             InitializeComponent();
         }
 
+        private WaitBox wb = new WaitBox();
+
         private void StreamPlayer_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             this.BringToFront();
+            trackBar1.AutoSize = true;
         }
 
         public void Play(string url)
@@ -83,29 +86,33 @@ namespace Plex.Client.Win32
 
         private void trackBar1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left)
-            {
-                PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
-                this.axVLCPlugin21_PreviewKeyDown(sender, args );
-                e.Handled = true;
-                return;
-            }
+            PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
+            e.Handled = true;
+            this.axVLCPlugin21_PreviewKeyDown(sender, args);
 
-            double val = .01 * axVLCPlugin21.input.Length;
+            //if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left)
+            //{
+            //    PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
+            //    this.axVLCPlugin21_PreviewKeyDown(sender, args );
+            //    e.Handled = true;
+            //    return;
+            //}
 
-            if (e.KeyCode == Keys.Right)
-            {
-                axVLCPlugin21.input.Time += val;
-                e.Handled = true;
-                return;
-            }
+            //double val = .01 * axVLCPlugin21.input.Length;
 
-            if (e.KeyCode == Keys.Left)
-            {
-                axVLCPlugin21.input.Time -= val;
-                e.Handled = true;
-                return;
-            }
+            //if (e.KeyCode == Keys.Right)
+            //{
+            //    axVLCPlugin21.input.Position += val;
+            //    e.Handled = true;
+            //    return;
+            //}
+
+            //if (e.KeyCode == Keys.Left)
+            //{
+            //    axVLCPlugin21.input.Position -= val;
+            //    e.Handled = true;
+            //    return;
+            //}
 
         }
 
@@ -126,13 +133,24 @@ namespace Plex.Client.Win32
         {
             double max = axVLCPlugin21.input.Length;
 
-            if ( ((int)max) > trackBar1.Maximum)
-                this.trackBar1.SetRange(0, (int) max);
+            if (((int)max) != trackBar1.Maximum)
+            {
+                this.trackBar1.SetRange(0, (int)max);
+                trackBar1.LargeChange = (int)(.1 * max);
+            }
         }
 
         private void axVLCPlugin21_MediaPlayerEndReached(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void axVLCPlugin21_MediaPlayerBuffering(object sender, EventArgs e)
+        {
         }
     }
 }

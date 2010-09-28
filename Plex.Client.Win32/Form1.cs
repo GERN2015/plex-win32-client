@@ -98,8 +98,11 @@ namespace Plex.Client.Win32
 
             if (node.Attributes["summary"] != null)
                 if (node.Attributes["summary"].Value != null)
-                    text += HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
-            
+                {
+                    string val = node.Attributes["summary"].Value;
+                    text += Encoding.UTF8.GetString(Encoding.Default.GetBytes(val));
+                }
+
             label1.Text = text;
 
             string art = GetArtForNode(node, ref isThumb);
@@ -186,12 +189,6 @@ namespace Plex.Client.Win32
                 if ( art.CompareTo("Quit") != 0 )
                     LoadGenericArt();
             }
-
-            //label1.Text = "";
-
-            //if (node.Attributes["summary"] != null)
-            //    if (node.Attributes["summary"].Value != null)
-            //        label1.Text = HttpUtility.HtmlDecode(node.Attributes["summary"].Value);
 
         }
 
@@ -594,6 +591,8 @@ namespace Plex.Client.Win32
 
                 if (title == null)
                     text = "<Unknown>";
+
+                text = Encoding.UTF8.GetString(Encoding.Default.GetBytes(text));
 
                 XmlAttribute vtype = entry.Attributes["type"];
 

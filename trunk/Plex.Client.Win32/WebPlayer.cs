@@ -57,5 +57,9 @@ namespace Plex.Client.Win32
             }
 
         }
+
+        private void webBrowser1_ControlAdded(object sender, ControlEventArgs e)
+        {               
+        }
     }
 }

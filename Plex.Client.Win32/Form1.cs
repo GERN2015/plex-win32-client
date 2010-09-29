@@ -105,6 +105,15 @@ namespace Plex.Client.Win32
 
             label1.Text = text;
 
+            if (text.Trim().Length > 0)
+            {
+                label1.BackColor = Color.Black;
+            }
+            else
+            {
+                label1.BackColor = Color.Transparent;
+            }
+
             string art = GetArtForNode(node, ref isThumb);
 
             if (art.CompareTo("Quit") == 0)
@@ -667,13 +676,17 @@ namespace Plex.Client.Win32
         {
             SuspendLayout();
 
-            pictureBox1.Width = this.ClientRectangle.Width - listView1.Width;
-            pictureBox1.Location = new Point(this.ClientRectangle.X + listView1.Width, 0);
-            pictureBox1.Height = (int)(ClientRectangle.Height * .75);
+            listView1.Top = panel1.Top;
+            listView1.Height = panel1.Height - 2;
+            listView1.Left = panel1.Left + 1;
 
-            label1.Location = new Point(this.ClientRectangle.X + listView1.Width, pictureBox1.Bottom);
-            label1.Height = ClientRectangle.Height - pictureBox1.Height;
-            label1.Width = pictureBox1.Width;
+            pictureBox1.Width = panel1.Width - listView1.Width - 2;
+            pictureBox1.Location = new Point(panel1.Left + listView1.Width, panel1.Top);
+            pictureBox1.Height = (int)(panel1.Height * .75);
+
+            label1.Location = new Point(panel1.Left + listView1.Width + 2, pictureBox1.Bottom + 1);
+            label1.Height = panel1.Height - pictureBox1.Height - 4;
+            label1.Width = pictureBox1.Width - 2;
 
             ResumeLayout();
         }
@@ -765,14 +778,4 @@ namespace Plex.Client.Win32
         }
     }
 
-    public class asyncArgs
-    {
-        public System.Threading.ManualResetEvent MRE = new System.Threading.ManualResetEvent(false);
-        public String URL = "";
-        public String XML = "";
-
-        public asyncArgs()
-        {
-        }
-    }
 }

@@ -33,8 +33,8 @@ namespace Plex.Client.Win32
         {
             InitializeComponent();
 
-            ServerSelector selector = new ServerSelector();
-            selector.ShowDialog();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
 
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
@@ -42,12 +42,19 @@ namespace Plex.Client.Win32
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ConnectToServer();
+
+        }
+
+        private void ConnectToServer()
+        {
+
+            ServerSelector selector = new ServerSelector();
+            selector.ShowDialog();
+
             string baseuri = FQDN() + "/library/sections/";
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
 
             FillListFromUrl(baseuri, 0);
-
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -401,6 +408,24 @@ namespace Plex.Client.Win32
                 return;
             }
 
+            if (node.Attributes["key"] != null && node.Attributes["key"].Value.CompareTo("ConnectTo") == 0)
+            {
+                string filename = Process.GetCurrentProcess().MainModule.FileName;
+
+                ProcessStartInfo psi = new ProcessStartInfo(filename);
+                psi.UseShellExecute = false;
+
+                Process p = Process.Start(filename);
+
+                while (p.Responding == false)
+                    System.Threading.Thread.Sleep(1000);
+
+                System.Threading.Thread.Sleep(1000);
+
+                this.Close();
+                return;
+            }
+
             if (node.Name.CompareTo("Video") == 0)
             {
                 XmlDocument doc = new XmlDocument();
@@ -652,6 +677,19 @@ namespace Plex.Client.Win32
                 itm.Tag = videos;
                 itm.ImageIndex = 0;
 
+                XmlNode connectTo = doc.CreateNode(XmlNodeType.Element, "Directory", "");
+                attr = connectTo.Attributes.Append(doc.CreateAttribute("title"));
+                attr.Value = "Connect to...";
+                attr = connectTo.Attributes.Append(doc.CreateAttribute("key"));
+                attr.Value = "ConnectTo";
+                attr = connectTo.Attributes.Append(doc.CreateAttribute("art"));
+                attr.Value = "Quit";
+
+                itm = listView1.Items.Add("Connect to...");
+
+                itm.Tag = connectTo;
+                itm.ImageIndex = 0;
+
                 XmlNode quit = doc.CreateNode(XmlNodeType.Element, "Directory", "");
                 attr = quit.Attributes.Append(doc.CreateAttribute("title"));
                 attr.Value = "Quit";
@@ -693,6 +731,10 @@ namespace Plex.Client.Win32
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+        }
+
+        private void HandleKey(KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Escape)
             {
                 if (_history.Count == 1)
@@ -704,10 +746,12 @@ namespace Plex.Client.Win32
                 int index = _selectionHistory.Pop();
 
                 FillListFromUrl(url, index);
+
+                e.Handled = true;
                 return;
             }
 
-            if (e.KeyCode == Keys.F11  )
+            if (e.KeyCode == Keys.F11)
             {
                 if (this.FormBorderStyle == FormBorderStyle.None)
                 {
@@ -718,6 +762,9 @@ namespace Plex.Client.Win32
                     this.FormBorderStyle = FormBorderStyle.None;
                     this.WindowState = FormWindowState.Maximized;
                 }
+
+                e.Handled = true;
+                return;
             }
 
             if (e.KeyCode == Keys.Up && listView1.SelectedIndices[0] == 0)
@@ -729,6 +776,7 @@ namespace Plex.Client.Win32
                 listView1.FocusedItem = listView1.Items[index];
                 SendKeys.Send("{END}");
 
+                return;
             }
 
             if (e.KeyCode == Keys.Down && listView1.SelectedIndices[0] == (listView1.Items.Count - 1))
@@ -738,12 +786,19 @@ namespace Plex.Client.Win32
                 listView1.Items[0].Selected = true;
                 listView1.FocusedItem = listView1.Items[0];
                 SendKeys.Send("{HOME}");
+
+                return;
             }
+
         }
 
         private void listView1_KeyDown(object sender, KeyEventArgs e)
         {
-            Form1_KeyDown(sender, e);
+            HandleKey(e);
+        }
+
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
+        {
         }
 
         private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -776,6 +831,11 @@ namespace Plex.Client.Win32
 
             e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds, StringFormat.GenericTypographic);
         }
+
+        private void listView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+
     }
 
 }

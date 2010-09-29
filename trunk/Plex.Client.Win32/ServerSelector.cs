@@ -13,15 +13,15 @@ namespace Plex.Client.Win32
 {
     public partial class ServerSelector : Form
     {
-        NetServiceBrowser _browser = new NetServiceBrowser();
+        NetServiceBrowser _browser = null;
 
         public ServerSelector()
         {
             InitializeComponent();
 
+            _browser = new NetServiceBrowser();
             _browser.DidFindDomain += new NetServiceBrowser.DomainFound(_browser_DidFindDomain);
             _browser.DidFindService += new NetServiceBrowser.ServiceFound(_browser_DidFindService);
-
             _browser.SearchForBrowseableDomains();
         }
 
@@ -45,7 +45,14 @@ namespace Plex.Client.Win32
 
         private void ServerSelector_Load(object sender, EventArgs e)
         {
-            this.comboBox1.Items.Add(Properties.Settings.Default.Server);
+            try
+            {
+                if (Properties.Settings.Default.Server.Trim().Length > 0)
+                    this.comboBox1.Items.Add(Properties.Settings.Default.Server);
+            }
+            catch
+            {
+            }
         }
 
         private void ItemPicked(string s)
@@ -65,12 +72,13 @@ namespace Plex.Client.Win32
             Properties.Settings.Default.Server = ip;
             Properties.Settings.Default.Save();
 
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void comboBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ItemPicked(comboBox1.SelectedText);
+//            ItemPicked(comboBox1.SelectedText);
         }
 
         private void comboBox1_KeyUp(object sender, KeyEventArgs e)

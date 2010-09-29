@@ -50,6 +50,7 @@ namespace Plex.Client.Win32
         {
 
             ServerSelector selector = new ServerSelector();
+            Application.DoEvents();
             selector.ShowDialog();
 
             string baseuri = FQDN() + "/library/sections/";
@@ -410,19 +411,7 @@ namespace Plex.Client.Win32
 
             if (node.Attributes["key"] != null && node.Attributes["key"].Value.CompareTo("ConnectTo") == 0)
             {
-                string filename = Process.GetCurrentProcess().MainModule.FileName;
-
-                ProcessStartInfo psi = new ProcessStartInfo(filename);
-                psi.UseShellExecute = false;
-
-                Process p = Process.Start(filename);
-
-                while (p.Responding == false)
-                    System.Threading.Thread.Sleep(1000);
-
-                System.Threading.Thread.Sleep(1000);
-
-                this.Close();
+                ConnectToServer();
                 return;
             }
 

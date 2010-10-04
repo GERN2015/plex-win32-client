@@ -24,14 +24,22 @@ namespace Plex.Client.Win32
             this.WindowState = FormWindowState.Maximized;
             this.BringToFront();
             trackBar1.AutoSize = true;
+
         }
 
-        public void Play(string url)
+        public void Play(string url,int offset)
         {
+
+            string vlcOptions = ":fullscreen :http-continuous :input-fast-seek";
+
+            MessageBox.Show(vlcOptions);
+
             axVLCPlugin21.Toolbar = true;
             axVLCPlugin21.playlist.clear();
-            axVLCPlugin21.playlist.add(url, "the thing", ":fullscreen :http-continuous :ffmpeg-workaround-bugs=40");
+            axVLCPlugin21.playlist.add(url, "the thing", vlcOptions);
+
             axVLCPlugin21.playlist.play();
+
         }
 
         private void StreamPlayer_KeyPress(object sender, KeyPressEventArgs e)

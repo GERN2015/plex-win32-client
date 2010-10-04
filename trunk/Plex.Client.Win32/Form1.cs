@@ -225,16 +225,26 @@ namespace Plex.Client.Win32
                         
         }
 
-        private void PlayHTTP(string url)
+        private void PlayHTTP(string url, int offset)
         {
             Clipboard.SetText(url);
 
             if (HandleIfPlexWebkit(url) )
                 return;
 
+            TimeSpan ts = TimeSpan.FromMilliseconds(offset);
+
+            DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
+
+            if (dr == DialogResult.Cancel)
+                return;
+
+            if (dr == DialogResult.No)
+                offset = 0;
+
             StreamPlayer sp = new StreamPlayer();
             sp.Show();
-            sp.Play(url);
+            sp.Play(url, offset);
             sp.BringToFront();
             sp.TopMost = true;
 
@@ -287,7 +297,7 @@ namespace Plex.Client.Win32
             return rval;
         }
 
-        private void PlayStream(string url)
+        private void PlayStream(string url, int offset)
         {
             if (url.Substring(0, 7).ToLower().CompareTo("plex://") == 0)
             {
@@ -358,7 +368,7 @@ namespace Plex.Client.Win32
                             ns.Close();
                             client.Close();
 
-                            PlayHTTP(newURL);
+                            PlayHTTP(newURL, offset);
 
                             break;
                         }
@@ -372,7 +382,7 @@ namespace Plex.Client.Win32
                             ns.Close();
                             client.Close();
 
-                            PlayStream(newURL);
+                            PlayStream(newURL, offset);
                             break;
                         }
 
@@ -382,7 +392,7 @@ namespace Plex.Client.Win32
                     return;
                 }
 
-                PlayHTTP(url);
+                PlayHTTP(url, offset);
             }
 
         }
@@ -423,6 +433,12 @@ namespace Plex.Client.Win32
                 XmlNode mediaPart = doc.SelectSingleNode("//Media/Part");
 
                 string playuri = "";
+                int offset = 0;
+
+                if (node.Attributes["viewOffset"] != null)
+                {
+                    offset = int.Parse(node.Attributes["viewOffset"].Value);
+                }
 
                 if (mediaPart != null)
                 {
@@ -445,6 +461,7 @@ namespace Plex.Client.Win32
                         {
                             playuri = key.Value;
                         }
+                    
                     }
                     else
                     {
@@ -452,7 +469,7 @@ namespace Plex.Client.Win32
                     }
                 }
 
-                PlayStream(playuri);
+                PlayStream(playuri, offset);
 
                 return;
             }

@@ -28,7 +28,6 @@ namespace Plex.Client.Win32
         public void Play(string url)
         {
             Clipboard.SetText(url);
-            MessageBox.Show(url);
             webBrowser1.Navigate(url);
         }
 

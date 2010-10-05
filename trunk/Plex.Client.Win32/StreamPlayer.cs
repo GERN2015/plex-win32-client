@@ -32,8 +32,6 @@ namespace Plex.Client.Win32
 
             string vlcOptions = ":fullscreen :http-continuous :input-fast-seek";
 
-            MessageBox.Show(vlcOptions);
-
             axVLCPlugin21.Toolbar = true;
             axVLCPlugin21.playlist.clear();
             axVLCPlugin21.playlist.add(url, "the thing", vlcOptions);

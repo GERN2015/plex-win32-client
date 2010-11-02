@@ -56,26 +56,29 @@
             this.axVLCPlugin21.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axVLCPlugin21.OcxState")));
             this.axVLCPlugin21.Size = new System.Drawing.Size(695, 434);
             this.axVLCPlugin21.TabIndex = 0;
+            this.axVLCPlugin21.MediaPlayerOpening += new System.EventHandler(this.axVLCPlugin21_MediaPlayerOpening);
+            this.axVLCPlugin21.MediaPlayerBuffering += new System.EventHandler(this.axVLCPlugin21_MediaPlayerBuffering);
             this.axVLCPlugin21.MediaPlayerPlaying += new System.EventHandler(this.axVLCPlugin21_MediaPlayerPlaying);
             this.axVLCPlugin21.MediaPlayerEndReached += new System.EventHandler(this.axVLCPlugin21_MediaPlayerEndReached);
-            this.axVLCPlugin21.MediaPlayerBuffering += new System.EventHandler(this.axVLCPlugin21_MediaPlayerBuffering);
             this.axVLCPlugin21.MediaPlayerTimeChanged += new AxAXVLC.DVLCEvents_MediaPlayerTimeChangedEventHandler(this.axVLCPlugin21_MediaPlayerTimeChanged);
             this.axVLCPlugin21.MediaPlayerPositionChanged += new AxAXVLC.DVLCEvents_MediaPlayerPositionChangedEventHandler(this.axVLCPlugin21_MediaPlayerPositionChanged);
             this.axVLCPlugin21.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.axVLCPlugin21_PreviewKeyDown);
-            this.axVLCPlugin21.MediaPlayerOpening += new System.EventHandler(this.axVLCPlugin21_MediaPlayerOpening);
             // 
             // StreamPlayer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(695, 478);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.axVLCPlugin21);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "StreamPlayer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StreamPlayer";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.StreamPlayer_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.StreamPlayer_KeyPress);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StreamPlayer_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.StreamPlayer_KeyPress);
+            this.Resize += new System.EventHandler(this.StreamPlayer_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axVLCPlugin21)).EndInit();
             this.ResumeLayout(false);

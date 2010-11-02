@@ -17,6 +17,8 @@ namespace Plex.Client.Win32
 {
     public partial class Form1 : Form
     {
+        #region Vars
+
         private WebClient wc = null;
 
         private string _oldArt = "", _containerArt = "";
@@ -29,6 +31,24 @@ namespace Plex.Client.Win32
 
         private System.Threading.ManualResetEvent _mre = new System.Threading.ManualResetEvent(false);
 
+        private int _selection = 0;
+
+        private string FQDN()
+        {
+            if (Properties.Settings.Default.Server.Contains(@"http://"))
+            {
+                return Properties.Settings.Default.Server + ":32400";
+            }
+            else
+            {
+                return "http://" + Properties.Settings.Default.Server + ":32400";
+            }
+        }
+        
+        #endregion
+
+        #region UI
+        
         public Form1()
         {
             InitializeComponent();
@@ -39,27 +59,27 @@ namespace Plex.Client.Win32
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             ConnectToServer();
-
         }
-
-        private void ConnectToServer()
+        private void Form1_Resize(object sender, EventArgs e)
         {
+            SuspendLayout();
 
-            ServerSelector selector = new ServerSelector();
-            Application.DoEvents();
-            selector.ShowDialog();
+            listView1.Top = panel1.Top;
+            listView1.Height = panel1.Height - 2;
+            listView1.Left = panel1.Left + 1;
 
-            string baseuri = FQDN() + "/library/sections/";
+            pictureBox1.Width = panel1.Width - listView1.Width - 2;
+            pictureBox1.Location = new Point(panel1.Left + listView1.Width, panel1.Top);
+            pictureBox1.Height = (int)(panel1.Height * .75);
 
-            FillListFromUrl(baseuri, 0);
-        }
+            label1.Location = new Point(panel1.Left + listView1.Width + 2, pictureBox1.Bottom + 1);
+            label1.Height = panel1.Height - pictureBox1.Height - 4;
+            label1.Width = pictureBox1.Width - 2;
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            ResumeLayout();
         }
 
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -208,205 +228,6 @@ namespace Plex.Client.Win32
             }
 
         }
-
-        private void LoadGenericArt()
-        {
-            Image old = pictureBox1.Image;
-
-            SuspendLayout();
-            pictureBox1.Image = Properties.Resources.plex_iTunesArtwork;
-            ResumeLayout();
- 
-
-        }
-
-        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-                        
-        }
-
-        private void PlayHTTP(string url, int offset)
-        {
-            Clipboard.SetText(url);
-
-            if (HandleIfPlexWebkit(url) )
-                return;
-
-            TimeSpan ts = TimeSpan.FromMilliseconds(offset);
-
-            //DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
-
-            //if (dr == DialogResult.Cancel)
-            //    return;
-
-            //if (dr == DialogResult.No)
-            //    offset = 0;
-
-            StreamPlayer sp = new StreamPlayer();
-            sp.Show();
-            sp.Play(url, offset);
-            sp.BringToFront();
-            sp.TopMost = true;
-
-        }
-
-        private bool HandleIfPlexWebkit(string url)
-        {
-            bool rval = false;
-
-            Uri uri = new Uri(url);
-
-            TcpClient c = new TcpClient();
-            c.Connect(uri.Host, uri.Port);
-            StreamReader sr = new StreamReader(c.GetStream());
-            StreamWriter sw = new StreamWriter(c.GetStream());
-
-            sw.Write("GET " + uri.PathAndQuery + " HTTP/1.0\r\n\r\n");
-            sw.Flush();
-
-
-            string s = sr.ReadLine();
-
-            int status = Int32.Parse(s.Split(new char[] { ' ' })[1]);
-
-            while (s.Trim().Length > 0)
-            {
-                if (s.Substring(0, 9).CompareTo("Location:") == 0)
-                {
-                    string newPath = s.Substring(9);
-
-                    if (newPath.IndexOf("webkit") != -1)
-                    {
-                        newPath = newPath.Substring(newPath.IndexOf("url=") + 4);
-                        newPath = HttpUtility.UrlDecode(newPath);
-
-                        rval = true;
-                        OpenWebPage(newPath);
-
-                        break;
-                    }
-                }
-
-                s = sr.ReadLine();
-            }
-
-            sr.Close();
-            sw.Close();
-            c.Close();
-
-            return rval;
-        }
-
-        private void PlayStream(string url, int offset)
-        {
-            if (url.Substring(0, 7).ToLower().CompareTo("plex://") == 0)
-            {
-                Uri uri = new Uri(url);
-
-                url = uri.Query.Split(new char[] { '&' })[0];
-                url = url.Substring(5);
-                url = HttpUtility.UrlDecode(url);
-
-                //
-                // special case for Netflix plugin
-                //
-
-                if (url.IndexOf("netflix") != -1)
-                {
-                    string[] parts = url.Split(new char[] { '&' });
-
-                    string tmp = parts[0];
-
-                    if (url.IndexOf("#resume") != -1)
-                    {
-                        tmp += "#resume";
-                    }
-                    else
-                    {
-                        tmp += "#restart";
-                    }
-
-                    url = tmp;
-
-                    //
-                    // end case
-                    //
-                }
-
-                Clipboard.SetText(url);
-
-                OpenWebPage(url);
-
-            }
-            else
-            {
-                if (url.ToLower().Substring(0, 6).CompareTo("/video") == 0)
-                {
-                    System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient();
-                    client.Connect(Properties.Settings.Default.Server, 32400);
-
-                    System.Net.Sockets.NetworkStream ns = client.GetStream();
-                    StreamWriter w = new StreamWriter(ns);
-                    StreamReader r = new StreamReader(ns);
-
-                    w.WriteLine("GET " + url + " HTTP/1.0");
-                    w.WriteLine("");
-                    w.Flush();
-
-                    string s = r.ReadLine();
-
-                    string newURL = "";
-
-                    while (s != null)
-                    {
-                        if (s.ToLower().IndexOf("http://") != -1)
-                        {
-                            newURL = s.Substring(s.IndexOf("http://"));
-
-                            r.Close();
-                            w.Close();
-                            ns.Close();
-                            client.Close();
-
-                            PlayHTTP(newURL, offset);
-
-                            break;
-                        }
-
-                        if (s.ToLower().IndexOf("plex://") != -1)
-                        {
-                            newURL = s.Substring(s.IndexOf("plex://"));
-
-                            r.Close();
-                            w.Close();
-                            ns.Close();
-                            client.Close();
-
-                            PlayStream(newURL, offset);
-                            break;
-                        }
-
-                        s = r.ReadLine();
-                    }
-
-                    return;
-                }
-
-                PlayHTTP(url, offset);
-            }
-
-        }
-
-        private static void OpenWebPage(string url)
-        {
-
-            WebPlayer wp = new WebPlayer();
-            wp.Show();
-            wp.Play(url);
-            wp.BringToFront();
-            wp.TopMost = true;
-        }
-
         private void listView1_ItemActivate(object sender, EventArgs e)
         {
             _selection = 0;
@@ -486,55 +307,69 @@ namespace Plex.Client.Win32
 
             FillListFromUrl(url, 0);
         }
-
-        private string GetArtForNode(XmlNode node, ref bool isThumb)
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
         {
-            string result = "";
-
-            XmlAttribute art = node.Attributes["thumb"];
-
-            if (art != null)
-            {
-                isThumb = true;
-
-                if (art.Value.Length > 7 && art.Value.Substring(0, 7).ToLower().CompareTo("http://") == 0)
-                {
-                    return art.Value;
-                }
-                else
-                {
-                    return FQDN() + art.Value;
-                }
-            }
-
-            isThumb = false;
-
-            art = node.Attributes["art"];
-
-            if (art != null && art.Value.ToLower().CompareTo("quit") == 0)
-            {
-                return "Quit";
-            }
-
-            if (art != null)
-            {
-                return FQDN() + art.Value;
-            }
-
-            if (_containerArt.Trim().Length != 0)
-                return FQDN() + _containerArt;
-
-            return result;
+            HandleKey(e);
         }
-
-        private string FQDN()
+        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            return "http://" + Properties.Settings.Default.Server + ":32400";
-        }
 
+            e.DrawDefault = false;
+
+            Image img = imageList1.Images[0];
+
+            if (e.Item.ImageIndex == 0)
+                e.Graphics.DrawImage(img, new Point(e.Bounds.Left, e.Bounds.Top + 1));
+
+            int newTextY = e.Bounds.Y;
+
+            if (e.Item.Text.Contains('\n') == false)
+            {
+                newTextY += ((e.Bounds.Height / 2) - (e.Item.Font.Height / 2));
+            }
+            else
+            {
+                newTextY += ((e.Bounds.Height / 2) - ((int) (e.Graphics.MeasureString(e.Item.Text, e.Item.Font).Height / 2)));
+            }
+
+            Point newLoc = new Point(e.Bounds.Left + img.Width + 1, newTextY);
+            Size newSize = new Size(e.Bounds.Width - img.Width - 1, e.Bounds.Height);
+
+            Rectangle textBounds = new Rectangle( newLoc, newSize );
+
+            e.DrawFocusRectangle();
+
+            e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds, StringFormat.GenericTypographic);
+        }
+        
+        #endregion
+
+        #region Methods
+
+        private void ConnectToServer()
+        {
+
+            ServerSelector selector = new ServerSelector();
+            Application.DoEvents();
+            selector.ShowDialog();
+
+            string baseuri = FQDN() + "/library/sections/";
+
+            FillListFromUrl(baseuri, 0);
+        }
+        private void FillListFromUrl(string url, int selection)
+        {
+            _wb.Start();
+
+            _selection = selection;
+
+            _history.Push(url);
+
+            wc.DownloadStringAsync(new Uri(url), url);
+
+        }
+        
         private delegate void FillListBoxDelegate(string url, string xml);
-        private int _selection = 0;
-
         void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -561,19 +396,6 @@ namespace Plex.Client.Win32
             }
 
         }
-
-        private void FillListFromUrl(string url,int selection)
-        {
-            _wb.Start();
-
-            _selection = selection;
-
-            _history.Push(url);
-
-            wc.DownloadStringAsync(new Uri(url), url);
-
-        }
-
         private void FillListBox(string url, string xml)
         {
             SuspendLayout();
@@ -712,32 +534,235 @@ namespace Plex.Client.Win32
             else
             {
                 listView1.Sort();
-
             }
         }
-
-        private void Form1_Resize(object sender, EventArgs e)
+        
+        private string GetArtForNode(XmlNode node, ref bool isThumb)
         {
+            string result = "";
+
+            XmlAttribute art = node.Attributes["thumb"];
+
+            if (art != null)
+            {
+                isThumb = true;
+
+                if (art.Value.Length > 7 && art.Value.Substring(0, 7).ToLower().CompareTo("http://") == 0)
+                {
+                    return art.Value;
+                }
+                else
+                {
+                    return FQDN() + art.Value;
+                }
+            }
+
+            isThumb = false;
+
+            art = node.Attributes["art"];
+
+            if (art != null && art.Value.ToLower().CompareTo("quit") == 0)
+            {
+                return "Quit";
+            }
+
+            if (art != null)
+            {
+                return FQDN() + art.Value;
+            }
+
+            if (_containerArt.Trim().Length != 0)
+                return FQDN() + _containerArt;
+
+            return result;
+        }
+        private void LoadGenericArt()
+        {
+            Image old = pictureBox1.Image;
+
             SuspendLayout();
-
-            listView1.Top = panel1.Top;
-            listView1.Height = panel1.Height - 2;
-            listView1.Left = panel1.Left + 1;
-
-            pictureBox1.Width = panel1.Width - listView1.Width - 2;
-            pictureBox1.Location = new Point(panel1.Left + listView1.Width, panel1.Top);
-            pictureBox1.Height = (int)(panel1.Height * .75);
-
-            label1.Location = new Point(panel1.Left + listView1.Width + 2, pictureBox1.Bottom + 1);
-            label1.Height = panel1.Height - pictureBox1.Height - 4;
-            label1.Width = pictureBox1.Width - 2;
-
+            pictureBox1.Image = Properties.Resources.plex_iTunesArtwork;
             ResumeLayout();
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void PlayStream(string url, int offset)
         {
+            if (url.Substring(0, 7).ToLower().CompareTo("plex://") == 0)
+            {
+                Uri uri = new Uri(url);
+
+                url = uri.Query.Split(new char[] { '&' })[0];
+                url = url.Substring(5);
+                url = HttpUtility.UrlDecode(url);
+
+                //
+                // special case for Netflix plugin
+                //
+
+                if (url.IndexOf("netflix") != -1)
+                {
+                    string[] parts = url.Split(new char[] { '&' });
+
+                    string tmp = parts[0];
+
+                    if (url.IndexOf("#resume") != -1)
+                    {
+                        tmp += "#resume";
+                    }
+                    else
+                    {
+                        tmp += "#restart";
+                    }
+
+                    url = tmp;
+
+                    //
+                    // end case
+                    //
+                }
+
+                Clipboard.SetText(url);
+
+                OpenWebPage(url);
+
+            }
+            else
+            {
+                if (url.ToLower().Substring(0, 6).CompareTo("/video") == 0)
+                {
+                    System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient();
+                    client.Connect(Properties.Settings.Default.Server, 32400);
+
+                    System.Net.Sockets.NetworkStream ns = client.GetStream();
+                    StreamWriter w = new StreamWriter(ns);
+                    StreamReader r = new StreamReader(ns);
+
+                    w.WriteLine("GET " + url + " HTTP/1.0");
+                    w.WriteLine("");
+                    w.Flush();
+
+                    string s = r.ReadLine();
+
+                    string newURL = "";
+
+                    while (s != null)
+                    {
+                        if (s.ToLower().IndexOf("http://") != -1)
+                        {
+                            newURL = s.Substring(s.IndexOf("http://"));
+
+                            r.Close();
+                            w.Close();
+                            ns.Close();
+                            client.Close();
+
+                            PlayHTTP(newURL, offset);
+
+                            break;
+                        }
+
+                        if (s.ToLower().IndexOf("plex://") != -1)
+                        {
+                            newURL = s.Substring(s.IndexOf("plex://"));
+
+                            r.Close();
+                            w.Close();
+                            ns.Close();
+                            client.Close();
+
+                            PlayStream(newURL, offset);
+                            break;
+                        }
+
+                        s = r.ReadLine();
+                    }
+
+                    return;
+                }
+
+                PlayHTTP(url, offset);
+            }
+
         }
+        private void PlayHTTP(string url, int offset)
+        {
+            Clipboard.SetText(url);
+
+            if (HandleIfPlexWebkit(url) )
+                return;
+
+            TimeSpan ts = TimeSpan.FromMilliseconds(offset);
+
+            //DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
+
+            //if (dr == DialogResult.Cancel)
+            //    return;
+
+            //if (dr == DialogResult.No)
+            //    offset = 0;
+
+            StreamPlayer sp = new StreamPlayer();
+            sp.Show();
+            sp.Play(url, offset);
+            sp.BringToFront();
+            sp.TopMost = true;
+
+        }
+        private static void OpenWebPage(string url)
+        {
+
+            WebPlayer wp = new WebPlayer();
+            wp.Show();
+            wp.Play(url);
+            wp.BringToFront();
+            wp.TopMost = true;
+        }     
+        private bool HandleIfPlexWebkit(string url)
+        {
+            bool rval = false;
+
+            Uri uri = new Uri(url);
+
+            TcpClient c = new TcpClient();
+            c.Connect(uri.Host, uri.Port);
+            StreamReader sr = new StreamReader(c.GetStream());
+            StreamWriter sw = new StreamWriter(c.GetStream());
+
+            sw.Write("GET " + uri.PathAndQuery + " HTTP/1.0\r\n\r\n");
+            sw.Flush();
+
+
+            string s = sr.ReadLine();
+
+            int status = Int32.Parse(s.Split(new char[] { ' ' })[1]);
+
+            while (s.Trim().Length > 0)
+            {
+                if (s.Substring(0, 9).CompareTo("Location:") == 0)
+                {
+                    string newPath = s.Substring(9);
+
+                    if (newPath.IndexOf("webkit") != -1)
+                    {
+                        newPath = newPath.Substring(newPath.IndexOf("url=") + 4);
+                        newPath = HttpUtility.UrlDecode(newPath);
+
+                        rval = true;
+                        OpenWebPage(newPath);
+
+                        break;
+                    }
+                }
+
+                s = sr.ReadLine();
+            }
+
+            sr.Close();
+            sw.Close();
+            c.Close();
+
+            return rval;
+        }    
 
         private void HandleKey(KeyEventArgs e)
         {
@@ -798,50 +823,8 @@ namespace Plex.Client.Win32
 
         }
 
-        private void listView1_KeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKey(e);
-        }
-
-        private void listView1_KeyUp(object sender, KeyEventArgs e)
-        {
-        }
-
-        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-
-            e.DrawDefault = false;
-
-            Image img = imageList1.Images[0];
-
-            if (e.Item.ImageIndex == 0)
-                e.Graphics.DrawImage(img, new Point(e.Bounds.Left, e.Bounds.Top + 1));
-
-            int newTextY = e.Bounds.Y;
-
-            if (e.Item.Text.Contains('\n') == false)
-            {
-                newTextY += ((e.Bounds.Height / 2) - (e.Item.Font.Height / 2));
-            }
-            else
-            {
-                newTextY += ((e.Bounds.Height / 2) - ((int) (e.Graphics.MeasureString(e.Item.Text, e.Item.Font).Height / 2)));
-            }
-
-            Point newLoc = new Point(e.Bounds.Left + img.Width + 1, newTextY);
-            Size newSize = new Size(e.Bounds.Width - img.Width - 1, e.Bounds.Height);
-
-            Rectangle textBounds = new Rectangle( newLoc, newSize );
-
-            e.DrawFocusRectangle();
-
-            e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds, StringFormat.GenericTypographic);
-        }
-
-        private void listView1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
+        #endregion
+        
     }
 
 }

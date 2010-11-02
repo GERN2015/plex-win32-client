@@ -37,7 +37,6 @@ C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Plex.Client.Win32.exe
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Plex.Client.Win32.pdb
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ZeroconfService.dll
-C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ZeroconfService.xml
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Interop.AXVLC.dll
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\AxInterop.AXVLC.dll
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\ResolveAssemblyReference.cache

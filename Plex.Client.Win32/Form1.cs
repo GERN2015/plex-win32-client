@@ -349,9 +349,18 @@ namespace Plex.Client.Win32
         private void ConnectToServer()
         {
 
-            ServerSelector selector = new ServerSelector();
             Application.DoEvents();
-            selector.ShowDialog();
+            ServerSelector selector = new ServerSelector();
+            DialogResult dr = selector.ShowDialog();
+
+            if (dr != DialogResult.OK)
+                return;
+
+            if (Properties.Settings.Default.Server == null || Properties.Settings.Default.Server.Length == 0)
+            {
+                MessageBox.Show("Hmmm....  We got an empty server selection... That won't due. Please report to the devs..");
+                return;
+            }
 
             string baseuri = FQDN() + "/library/sections/";
 

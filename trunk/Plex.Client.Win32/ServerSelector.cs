@@ -22,7 +22,12 @@ namespace Plex.Client.Win32
             _browser = new NetServiceBrowser();
             _browser.DidFindDomain += new NetServiceBrowser.DomainFound(_browser_DidFindDomain);
             _browser.DidFindService += new NetServiceBrowser.ServiceFound(_browser_DidFindService);
-            _browser.SearchForBrowseableDomains();
+            try
+            { _browser.SearchForBrowseableDomains(); }
+            catch
+            {
+                MessageBox.Show("Couldn't locate servers via Bonjour.");
+            }
         }
 
         void _browser_DidFindService(NetServiceBrowser browser, NetService service, bool moreComing)
@@ -35,7 +40,7 @@ namespace Plex.Client.Win32
         {
             IPEndPoint addr = (IPEndPoint)service.Addresses[0];
 
-            int idx = comboBox1.Items.Add(service.HostName + "(" + addr.Address.ToString() + ")" );
+            int idx = comboBox1.Items.Add(service.HostName + "(" + addr.Address.ToString() + ")");
         }
 
         void _browser_DidFindDomain(NetServiceBrowser browser, string domainName, bool moreComing)

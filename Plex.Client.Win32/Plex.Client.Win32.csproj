@@ -187,6 +187,7 @@
   <ItemGroup>
     <Content Include="MainIcon.ico" />
     <Content Include="Resources\MainIcon.ico" />
+    <Content Include="ZeroconfService.dll" />
     <None Include="Resources\Quit.jpg" />
     <Content Include="Resources\SelectionIcon.ico" />
   </ItemGroup>

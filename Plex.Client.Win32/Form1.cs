@@ -234,13 +234,13 @@ namespace Plex.Client.Win32
 
             TimeSpan ts = TimeSpan.FromMilliseconds(offset);
 
-            DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
+            //DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
 
-            if (dr == DialogResult.Cancel)
-                return;
+            //if (dr == DialogResult.Cancel)
+            //    return;
 
-            if (dr == DialogResult.No)
-                offset = 0;
+            //if (dr == DialogResult.No)
+            //    offset = 0;
 
             StreamPlayer sp = new StreamPlayer();
             sp.Show();

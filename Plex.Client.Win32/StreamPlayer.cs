@@ -158,5 +158,13 @@ namespace Plex.Client.Win32
         private void axVLCPlugin21_MediaPlayerBuffering(object sender, EventArgs e)
         {
         }
+
+        private void StreamPlayer_Resize(object sender, EventArgs e)
+        {
+            axVLCPlugin21.Left = 0;
+            axVLCPlugin21.Top = 0;
+            axVLCPlugin21.Width = this.ClientRectangle.Width;
+            axVLCPlugin21.Height = this.ClientRectangle.Height - trackBar1.Height;
+        }
     }
 }

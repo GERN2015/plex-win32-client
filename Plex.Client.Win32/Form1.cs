@@ -33,6 +33,8 @@ namespace Plex.Client.Win32
 
         private int _selection = 0;
 
+        private bool _firstConnect = true;
+
         private string FQDN()
         {
             if (Properties.Settings.Default.Server.Contains(@"http://"))
@@ -242,7 +244,17 @@ namespace Plex.Client.Win32
 
             if (node.Attributes["key"] != null && node.Attributes["key"].Value.CompareTo("ConnectTo") == 0)
             {
-                ConnectToServer();
+
+                System.Threading.ThreadPool.QueueUserWorkItem((arg) =>
+                {
+                    System.Threading.Thread.Sleep(250);
+
+                    Invoke( new EventHandler((o, parms) =>
+                    {
+                        ConnectToServer();
+                    }));
+                });
+
                 return;
             }
 
@@ -349,12 +361,28 @@ namespace Plex.Client.Win32
         private void ConnectToServer()
         {
 
-            Application.DoEvents();
-            ServerSelector selector = new ServerSelector();
-            DialogResult dr = selector.ShowDialog();
+            string[] args = System.Environment.GetCommandLineArgs();
 
-            if (dr != DialogResult.OK)
-                return;
+            if (Properties.Settings.Default.Server == null || Properties.Settings.Default.Server.Length == 0 || args.Contains("-last-server") == false || _firstConnect == false)
+            {
+                _firstConnect = false;
+
+                int i = 0;
+
+                for (i = 0; i < 100; i++)
+                    Application.DoEvents();
+
+                ServerSelector selector = new ServerSelector();
+                selector.Parent = null;
+                selector.TopMost = true;
+
+                DialogResult dr = selector.ShowDialog();
+
+                if (dr != DialogResult.OK)
+                    return;
+            }
+
+            _firstConnect = false;
 
             if (Properties.Settings.Default.Server == null || Properties.Settings.Default.Server.Length == 0)
             {

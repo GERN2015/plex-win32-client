@@ -30,11 +30,17 @@ namespace Plex.Client.Win32
         public void Play(string url,int offset)
         {
 
-            string vlcOptions = ":fullscreen :http-continuous :input-fast-seek";
-
             axVLCPlugin21.Toolbar = true;
             axVLCPlugin21.playlist.clear();
-            axVLCPlugin21.playlist.add(url, "the thing", vlcOptions);
+
+            if (url.IndexOf(":32400") != -1)
+            {
+                axVLCPlugin21.playlist.add(url, Type.Missing, Type.Missing);
+            }
+            else
+            {
+                axVLCPlugin21.playlist.add(url, Type.Missing, ":fullscreen :http-continuous :input-fast-seek");
+            }
 
             axVLCPlugin21.playlist.play();
 
@@ -88,6 +94,19 @@ namespace Plex.Client.Win32
                 this.Close();
                 return;
             }
+
+            if (e.KeyCode == Keys.Right)
+            {
+                axVLCPlugin21.input.Time += 30000;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                axVLCPlugin21.input.Time -= 10000;
+                return;
+            }
+
         }
 
         private void trackBar1_KeyDown(object sender, KeyEventArgs e)
@@ -95,31 +114,6 @@ namespace Plex.Client.Win32
             PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
             e.Handled = true;
             this.axVLCPlugin21_PreviewKeyDown(sender, args);
-
-            //if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left)
-            //{
-            //    PreviewKeyDownEventArgs args = new PreviewKeyDownEventArgs(e.KeyData);
-            //    this.axVLCPlugin21_PreviewKeyDown(sender, args );
-            //    e.Handled = true;
-            //    return;
-            //}
-
-            //double val = .01 * axVLCPlugin21.input.Length;
-
-            //if (e.KeyCode == Keys.Right)
-            //{
-            //    axVLCPlugin21.input.Position += val;
-            //    e.Handled = true;
-            //    return;
-            //}
-
-            //if (e.KeyCode == Keys.Left)
-            //{
-            //    axVLCPlugin21.input.Position -= val;
-            //    e.Handled = true;
-            //    return;
-            //}
-
         }
 
         private void axVLCPlugin21_MediaPlayerPositionChanged(object sender, AxAXVLC.DVLCEvents_MediaPlayerPositionChangedEvent e)

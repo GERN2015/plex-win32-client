@@ -658,15 +658,15 @@ namespace Plex.Client.Win32
 
             s = FQDN() + "/video/:/transcode/segmented/" + s;
 
-            wc = new System.Net.WebClient();
-
             int retries = 0;
 
             while (retries <= 4)
             {
                 try
                 {
+                    wc = new System.Net.WebClient();
                     s = wc.DownloadString(s);
+                    break;
                 }
                 catch
                 {

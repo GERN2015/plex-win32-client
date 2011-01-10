@@ -33,16 +33,14 @@ namespace Plex.Client.Win32
             axVLCPlugin21.Toolbar = true;
             axVLCPlugin21.playlist.clear();
 
-            axVLCPlugin21.playlist.add(url, Type.Missing, Type.Missing);
-
-            //if (url.IndexOf(":32400") != -1)
-            //{
-            //    axVLCPlugin21.playlist.add(url, Type.Missing, Type.Missing);
-            //}
-            //else
-            //{
-            //    axVLCPlugin21.playlist.add(url, Type.Missing, ":fullscreen :http-continuous :input-fast-seek");
-            //}
+            if (url.IndexOf("www.") == -1)
+            {
+                axVLCPlugin21.playlist.add(url, Type.Missing, Type.Missing);
+            }
+            else
+            {
+                axVLCPlugin21.playlist.add(url, Type.Missing, ":fullscreen :http-continuous :input-fast-seek");
+            }
 
             axVLCPlugin21.playlist.play();
 

@@ -185,6 +185,9 @@
     <None Include="Resources\plex.iTunesArtwork.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ffplay.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="MainIcon.ico" />
     <Content Include="Resources\MainIcon.ico" />
     <Content Include="ZeroconfService.dll" />

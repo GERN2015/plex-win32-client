@@ -12,6 +12,7 @@ using System.Xml;
 using System.IO;
 using System.Web;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Plex.Client.Win32
 {
@@ -275,7 +276,8 @@ namespace Plex.Client.Win32
 
                 if (mediaPart != null)
                 {
-                    playuri = FQDN() + mediaPart.Attributes["key"].Value;
+//                    playuri = FQDN() + mediaPart.Attributes["key"].Value;
+                    playuri = mediaPart.Attributes["key"].Value;
                 }
                 else
                 {
@@ -302,7 +304,8 @@ namespace Plex.Client.Win32
                     }
                 }
 
-                PlayStream(playuri, offset);
+//                PlayStream(playuri, offset);
+                PlayTranscoded(playuri);
 
                 return;
             }
@@ -622,6 +625,80 @@ namespace Plex.Client.Win32
             ResumeLayout();
         }
 
+        private void PlayTranscoded(string part)
+        {
+            if (part.IndexOf("http://") != -1)
+            {
+                part = part.Substring( part.IndexOf(":32400/") + 6);
+            }
+
+            DateTime jan1 = new DateTime(1970, 1, 1, 0, 0, 0);
+            double dTime = (DateTime.Now - jan1).TotalMilliseconds;
+
+            string time = Math.Round(dTime / 1000).ToString();
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=com.plexapp.plugins.library&ratingKey=97007888&offset=0&quality=5&url=http%3A%2F%2Flocalhost%3A32400" + Uri.EscapeDataString(part) + "&3g=0&httpCookies=&userAgent=";
+            string msg = url + "@" + time;
+            string publicKey = "KQMIY6GATPC63AIMC4R2";
+            byte[] privateKey = Convert.FromBase64String("k3U6GLkZOoNIoSgjDshPErvqMIFdE0xMTx8kgsrhnC0=");
+
+            HMACSHA256 hmac = new HMACSHA256(privateKey);
+            hmac.ComputeHash(UTF8Encoding.UTF8.GetBytes(msg));
+
+            string token = Convert.ToBase64String(hmac.Hash);
+
+            System.Net.WebClient wc = new System.Net.WebClient();
+
+            wc.Headers.Add("X-Plex-Access-Key", publicKey);
+            wc.Headers.Add("X-Plex-Access-Time", time);
+            wc.Headers.Add("X-Plex-Access-Code", token);
+
+            string s = wc.DownloadString(FQDN() + url);
+
+            s = s.Substring(s.IndexOf("session")).Replace("\n","");
+
+            s = FQDN() + "/video/:/transcode/segmented/" + s;
+
+            wc = new System.Net.WebClient();
+
+            int retries = 0;
+
+            while (retries <= 4)
+            {
+                try
+                {
+                    s = wc.DownloadString(s);
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep(10000);
+
+                    retries++;
+                }
+            }
+
+            if (retries >= 4)
+            {
+                MessageBox.Show("Transcoder failure..");
+                return;
+            }
+
+            s = s.Replace("/video", FQDN() + "/video");
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+            psi.FileName = "ffplay.exe";
+            psi.Arguments = "-fs -";
+            psi.UseShellExecute = false;
+            psi.CreateNoWindow = true;
+            psi.RedirectStandardInput = true;
+
+            System.Diagnostics.Process proc = System.Diagnostics.Process.Start(psi);
+
+            proc.StandardInput.Write(s);
+            proc.StandardInput.Flush();
+            proc.StandardInput.Close();
+
+        }
+
         private void PlayStream(string url, int offset)
         {
             if (url.Substring(0, 7).ToLower().CompareTo("plex://") == 0)
@@ -665,8 +742,10 @@ namespace Plex.Client.Win32
             }
             else
             {
-                if (url.ToLower().Substring(0, 6).CompareTo("/video") == 0)
+                if (url.IndexOf("/video") != -1)
                 {
+                    url = url.Substring(url.IndexOf("/video"));
+
                     System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient();
                     client.Connect(Properties.Settings.Default.Server, 32400);
 
@@ -693,7 +772,7 @@ namespace Plex.Client.Win32
                             ns.Close();
                             client.Close();
 
-                            PlayHTTP(newURL, offset);
+                            PlayTranscoded(url);
 
                             break;
                         }
@@ -717,7 +796,8 @@ namespace Plex.Client.Win32
                     return;
                 }
 
-                PlayHTTP(url, offset);
+//                PlayHTTP(url, offset);
+                PlayTranscoded(url);
             }
 
         }

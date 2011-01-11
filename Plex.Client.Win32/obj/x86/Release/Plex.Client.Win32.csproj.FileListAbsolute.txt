@@ -12,16 +12,11 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Plex.Client.Win32.exe
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Plex.Client.Win32.pdb
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ZeroconfService.dll
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\Interop.AXVLC.dll
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\AxInterop.AXVLC.dll
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\ResolveAssemblyReference.cache
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Interop.AXVLC.dll
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\AxInterop.AXVLC.dll
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.csproj.ResolveComReference.cache
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.Form1.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.Properties.Resources.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.ServerSelector.resources
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.StreamPlayer.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.WaitBox.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.WebPlayer.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.exe

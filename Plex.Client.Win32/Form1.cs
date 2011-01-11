@@ -13,7 +13,6 @@ using System.IO;
 using System.Web;
 using System.Diagnostics;
 using System.Security.Cryptography;
-using System.IO;
 using System.Threading;
 
 namespace Plex.Client.Win32
@@ -119,7 +118,15 @@ namespace Plex.Client.Win32
 
             if (node.Attributes["duration"] != null)
             {
-                int minutes = Int32.Parse(node.Attributes["duration"].Value) / 1000 / 60;
+                int minutes = 0;
+
+                try
+                {
+                    minutes = Int32.Parse(node.Attributes["duration"].Value) / 1000 / 60;
+                }
+                catch
+                {
+                }
 
                 text += "Runtime: " + minutes.ToString() + " minutes\r\n\r\n";
             }
@@ -307,8 +314,6 @@ namespace Plex.Client.Win32
                         {
                             newURL = newURL.Substring(newURL.IndexOf("url=") + 4);
                             newURL = Uri.UnescapeDataString(newURL);
-
-                            MessageBox.Show(newURL);
 
                             OpenWebPage(newURL);
                             return;
@@ -720,6 +725,7 @@ namespace Plex.Client.Win32
             {
                 try
                 {
+                    wc = new WebClient();
                     s = wc.DownloadString(s);
                     break;
                 }
@@ -790,6 +796,16 @@ namespace Plex.Client.Win32
 
                 Clipboard.SetText(url);
 
+                //
+                // prototype RTMP support
+                //
+                //if (url.IndexOf("http://www.plexapp.com/player/player.php?url=") != -1)
+                //{
+                //    url = Uri.UnescapeDataString(url.Substring(url.IndexOf("=") + 1));
+                //    PlayHttpWithDirectShow(url);
+                //    return;
+                //}
+
                 OpenWebPage(url);
 
                 return;
@@ -797,7 +813,7 @@ namespace Plex.Client.Win32
             }
             else
             {
-                if (url.IndexOf("/video") != -1 && url.IndexOf(":32400") != -1)
+                if (url.IndexOf("/video") != -1 && url.LastIndexOf(":") > 5)
                 {
                     url = url.Substring(url.IndexOf("/video"));
 
@@ -860,37 +876,16 @@ namespace Plex.Client.Win32
 
         private static void PlayHttpWithDirectShow(string newURL)
         {
+            Clipboard.SetText(newURL);
+
             System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
             psi.FileName = "ffplay.exe";
-            psi.Arguments = "-fs " + newURL;
+            psi.Arguments = "-fs \"" + newURL + "\"";
             psi.UseShellExecute = false;
-
+            
             Process.Start(psi);
         }
-        private void PlayHTTP(string url, int offset)
-        {
-            Clipboard.SetText(url);
 
-            if (HandleIfPlexWebkit(url) )
-                return;
-
-            TimeSpan ts = TimeSpan.FromMilliseconds(offset);
-
-            //DialogResult dr = MessageBox.Show("Resume from position " + ts.ToString() + " ?", "Resume", MessageBoxButtons.YesNoCancel);
-
-            //if (dr == DialogResult.Cancel)
-            //    return;
-
-            //if (dr == DialogResult.No)
-            //    offset = 0;
-
-            StreamPlayer sp = new StreamPlayer();
-            sp.Show();
-            sp.Play(url, offset);
-            sp.BringToFront();
-            sp.TopMost = true;
-
-        }
         private static void OpenWebPage(string url)
         {
 
@@ -900,52 +895,6 @@ namespace Plex.Client.Win32
             wp.BringToFront();
             wp.TopMost = true;
         }     
-        private bool HandleIfPlexWebkit(string url)
-        {
-            bool rval = false;
-
-            Uri uri = new Uri(url);
-
-            TcpClient c = new TcpClient();
-            c.Connect(uri.Host, uri.Port);
-            StreamReader sr = new StreamReader(c.GetStream());
-            StreamWriter sw = new StreamWriter(c.GetStream());
-
-            sw.Write("GET " + uri.PathAndQuery + " HTTP/1.0\r\n\r\n");
-            sw.Flush();
-
-
-            string s = sr.ReadLine();
-
-            int status = Int32.Parse(s.Split(new char[] { ' ' })[1]);
-
-            while (s.Trim().Length > 0)
-            {
-                if (s.Substring(0, 9).CompareTo("Location:") == 0)
-                {
-                    string newPath = s.Substring(9);
-
-                    if (newPath.IndexOf("webkit") != -1)
-                    {
-                        newPath = newPath.Substring(newPath.IndexOf("url=") + 4);
-                        newPath = HttpUtility.UrlDecode(newPath);
-
-                        rval = true;
-                        OpenWebPage(newPath);
-
-                        break;
-                    }
-                }
-
-                s = sr.ReadLine();
-            }
-
-            sr.Close();
-            sw.Close();
-            c.Close();
-
-            return rval;
-        }    
 
         private void HandleKey(KeyEventArgs e)
         {

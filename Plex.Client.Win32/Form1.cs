@@ -320,7 +320,6 @@ namespace Plex.Client.Win32
                         }
 
                         PlayStream(newURL, 0);
-
                         return;
                     }
 
@@ -693,6 +692,31 @@ namespace Plex.Client.Win32
                 }
             }
 
+            bool b = false;
+            int cnt = 0;
+
+            while (b == false && cnt < 4)
+            {
+                b = TryTranscode(part);
+                cnt++;
+            }
+
+            if (cnt >= 4)
+            {
+                MessageBox.Show("Transcoder Error");
+                return;
+            }
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+            psi.FileName = "ffplay.exe";
+            psi.Arguments = "-rtbufsize 100000000 -sync audio -fs playlist.m3u8";
+            psi.UseShellExecute = false;
+
+            Process.Start(psi);
+        }
+
+        private bool TryTranscode(string part)
+        {
             DateTime jan1 = new DateTime(1970, 1, 1, 0, 0, 0);
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
@@ -715,32 +739,19 @@ namespace Plex.Client.Win32
 
             string s = wc.DownloadString(FQDN() + url);
 
-            s = s.Substring(s.IndexOf("session")).Replace("\n","");
+            s = s.Substring(s.IndexOf("session")).Replace("\n", "");
 
             s = FQDN() + "/video/:/transcode/segmented/" + s;
 
-            int retries = 0;
 
-            while (retries <= 4)
+            try
             {
-                try
-                {
-                    wc = new WebClient();
-                    s = wc.DownloadString(s);
-                    break;
-                }
-                catch
-                {
-                    System.Threading.Thread.Sleep(3000);
-
-                    retries++;
-                }
+                wc = new WebClient();
+                s = wc.DownloadString(s);
             }
-
-            if (retries >= 4 && s.IndexOf('#') == -1)
+            catch
             {
-                MessageBox.Show("Transcoder failure..");
-                return;
+                return false;
             }
 
             s = s.Replace("/video", FQDN() + "/video");
@@ -749,13 +760,8 @@ namespace Plex.Client.Win32
             sw.Write(s);
             sw.Flush();
             sw.Close();
-
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-            psi.FileName = "ffplay.exe";
-            psi.Arguments = "-rtbufsize 100000000 -sync audio -fs playlist.m3u8";
-            psi.UseShellExecute = false;
-
-            Process.Start(psi);
+            
+            return true;
         }
 
         private void PlayStream(string url, int offset)
@@ -813,62 +819,63 @@ namespace Plex.Client.Win32
             }
             else
             {
-                if (url.IndexOf("/video") != -1 && url.LastIndexOf(":") > 5)
-                {
-                    url = url.Substring(url.IndexOf("/video"));
+                if (url.IndexOf("/video") != -1)
+ 
+                    if ( !url.Contains(":") || url.LastIndexOf(":") > 5) {
 
-                    System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient();
-                    client.Connect(Properties.Settings.Default.Server, 32400);
+                        url = url.Substring(url.IndexOf("/video"));
 
-                    System.Net.Sockets.NetworkStream ns = client.GetStream();
-                    StreamWriter w = new StreamWriter(ns);
-                    StreamReader r = new StreamReader(ns);
+                        System.Net.Sockets.TcpClient client = new System.Net.Sockets.TcpClient();
+                        client.Connect(Properties.Settings.Default.Server, 32400);
 
-                    w.WriteLine("GET " + url + " HTTP/1.0");
-                    w.WriteLine("");
-                    w.Flush();
+                        System.Net.Sockets.NetworkStream ns = client.GetStream();
+                        StreamWriter w = new StreamWriter(ns);
+                        StreamReader r = new StreamReader(ns);
 
-                    string s = r.ReadLine();
+                        w.WriteLine("GET " + url + " HTTP/1.0");
+                        w.WriteLine("");
+                        w.Flush();
 
-                    string newURL = "";
+                        string s = r.ReadLine();
 
-                    while (s != null)
-                    {
-                        if (s.ToLower().IndexOf("http://") != -1)
+                        string newURL = "";
+
+                        while (s != null)
                         {
-                            newURL = s.Substring(s.IndexOf("http://"));
+                            if (s.ToLower().IndexOf("http://") != -1)
+                            {
+                                newURL = s.Substring(s.IndexOf("http://"));
 
-                            r.Close();
-                            w.Close();
-                            ns.Close();
-                            client.Close();
+                                r.Close();
+                                w.Close();
+                                ns.Close();
+                                client.Close();
 
-//                            PlayTranscoded(url);
-                            PlayHttpWithDirectShow(newURL);
+    //                            PlayTranscoded(url);
+                                PlayHttpWithDirectShow(newURL);
 
-                            break;
+                                break;
+                            }
+
+                            if (s.ToLower().IndexOf("plex://") != -1)
+                            {
+                                newURL = s.Substring(s.IndexOf("plex://"));
+
+                                r.Close();
+                                w.Close();
+                                ns.Close();
+                                client.Close();
+
+                                PlayStream(newURL, offset);
+                                break;
+                            }
+
+                            s = r.ReadLine();
                         }
 
-                        if (s.ToLower().IndexOf("plex://") != -1)
-                        {
-                            newURL = s.Substring(s.IndexOf("plex://"));
-
-                            r.Close();
-                            w.Close();
-                            ns.Close();
-                            client.Close();
-
-                            PlayStream(newURL, offset);
-                            break;
-                        }
-
-                        s = r.ReadLine();
+                        return;
                     }
-
-                    return;
-                }
-
-//                PlayHTTP(url, offset);
+            
                 PlayTranscoded(url);
             }
 

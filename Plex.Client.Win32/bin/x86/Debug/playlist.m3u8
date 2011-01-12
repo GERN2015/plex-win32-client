@@ -1,259 +1,119 @@
 #EXTM3U
 #EXT-X-TARGETDURATION:8
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00000.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00000.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00001.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00001.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00002.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00002.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00003.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00003.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00004.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00004.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00005.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00005.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00006.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00006.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00007.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00007.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00008.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00008.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00009.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00009.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00010.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00010.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00011.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00011.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00012.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00012.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00013.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00013.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00014.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00014.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00015.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00015.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00016.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00016.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00017.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00017.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00018.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00018.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00019.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00019.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00020.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00020.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00021.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00021.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00022.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00022.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00023.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00023.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00024.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00024.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00025.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00025.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00026.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00026.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00027.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00027.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00028.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00028.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00029.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00029.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00030.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00030.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00031.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00031.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00032.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00032.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00033.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00033.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00034.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00034.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00035.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00035.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00036.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00036.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00037.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00037.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00038.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00038.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00039.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00039.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00040.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00040.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00041.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00041.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00042.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00042.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00043.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00043.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00044.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00044.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00045.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00045.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00046.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00046.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00047.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00047.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00048.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00048.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00049.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00049.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00050.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00050.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00051.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00051.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00052.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00052.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00053.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00053.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00054.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00054.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00055.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00055.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00056.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00056.ts
 #EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00057.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00058.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00059.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00060.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00061.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00062.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00063.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00064.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00065.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00066.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00067.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00068.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00069.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00070.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00071.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00072.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00073.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00074.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00075.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00076.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00077.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00078.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00079.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00080.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00081.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00082.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00083.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00084.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00085.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00086.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00087.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00088.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00089.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00090.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00091.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00092.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00093.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00094.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00095.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00096.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00097.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00098.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00099.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00100.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00101.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00102.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00103.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00104.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00105.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00106.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00107.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00108.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00109.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00110.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00111.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00112.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00113.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00114.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00115.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00116.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00117.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00118.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00119.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00120.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00121.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00122.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00123.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00124.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00125.ts
-#EXTINF:8, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00126.ts
-#EXTINF:7, nodesc
-http://192.168.50.9:32400/video/%3A/transcode/segmented/session/046dd95dba98d863b7d25f34ab498ac3c11911f1/6/00127.ts
+http://192.168.50.9:32400/video/%3A/transcode/segmented/session/cb767e65e9bcd12f80b1f8b4462ba34dde3411cf/5/00057.ts
 #EXT-X-ENDLIST

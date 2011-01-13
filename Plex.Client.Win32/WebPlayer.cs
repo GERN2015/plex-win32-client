@@ -14,10 +14,10 @@ namespace Plex.Client.Win32
         public WebPlayer()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
-            this.webBrowser1.ScrollBarsEnabled = false;
-            webBrowser1.ScriptErrorsSuppressed = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
+            //this.webBrowser1.ScrollBarsEnabled = false;
+            webBrowser1.ScriptErrorsSuppressed = false;
         }
 
         private void WebPlayer_Load(object sender, EventArgs e)

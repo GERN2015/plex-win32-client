@@ -1058,11 +1058,36 @@ namespace Plex.Client.Win32
         private static void OpenWebPage(string url)
         {
 
-            WebPlayer wp = new WebPlayer();
-            wp.Show();
-            wp.Play(url);
-            wp.BringToFront();
-            wp.TopMost = true;
+            //WebPlayer wp = new WebPlayer();
+            //wp.Show();
+            //wp.Play(url);
+            //wp.BringToFront();
+            //wp.TopMost = true;
+
+            string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\tmp.html";
+
+            WebClient c = new WebClient();
+            string html = c.DownloadString(url);
+
+            html = html.Replace("<head>", "<head>\r\n<base href=\"http://www.plexapp.com/player/\"/>");
+            html = html.Replace("<body", "<body onkeydown=\"window.close();\"");
+
+            Clipboard.SetText(html);
+
+            StreamWriter sw = File.CreateText(FILENAME);
+            sw.Write(html);
+            sw.Flush();
+            sw.Close();
+
+            ProcessStartInfo psi = new ProcessStartInfo(FILENAME);
+            psi.UseShellExecute = true;
+            psi.WindowStyle = ProcessWindowStyle.Maximized;
+
+            Process proc = Process.Start(psi);
+
+            proc.WaitForExit();
+
+            File.Delete(FILENAME);
         }     
 
         private void HandleKey(KeyEventArgs e)

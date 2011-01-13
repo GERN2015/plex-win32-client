@@ -700,8 +700,10 @@ namespace Plex.Client.Win32
                 return;
             }
 
+            string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\media.ts";
+
             AutoResetEvent ar = new AutoResetEvent(false);
-            FileStream media = new FileStream("media.ts", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            FileStream media = new FileStream(FILENAME, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             Thread t = new Thread((o) =>
             {
@@ -742,34 +744,40 @@ namespace Plex.Client.Win32
 
             ar.WaitOne();
 
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-            psi.FileName = "ffplay.exe";
-            psi.Arguments = "-sync audio -fs media.ts";
-            psi.UseShellExecute = false;
-
-            Process proc = Process.Start(psi);
-
-            proc.WaitForExit();
-
-
-            try
+            ThreadPool.QueueUserWorkItem((o) =>
             {
-                if (t.IsAlive)
-                    t.Abort();
-            }
-            catch
-            {
-            }
 
-            try
-            {
-                media.Close();
-            }
-            catch
-            {
-            }
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+                psi.FileName = "ffplay.exe";
+                psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
+                psi.UseShellExecute = false;
 
-            File.Delete("media.ts");
+                Process proc = Process.Start(psi);
+
+                proc.WaitForExit();
+
+
+                try
+                {
+                    if (t.IsAlive)
+                        t.Abort();
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    media.Close();
+                }
+                catch
+                {
+                }
+
+                File.Delete(FILENAME);
+
+            });
+
         }
 
         private void PlayTranscoded(string part)

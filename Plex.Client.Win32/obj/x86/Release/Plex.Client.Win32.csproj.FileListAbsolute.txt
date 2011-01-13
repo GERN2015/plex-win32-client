@@ -40,3 +40,5 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\ResGen.write.1.tlog
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ffplay.exe
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Release\ffplay.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.Buffering.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Release\Plex.Client.Win32.Buffering.resources

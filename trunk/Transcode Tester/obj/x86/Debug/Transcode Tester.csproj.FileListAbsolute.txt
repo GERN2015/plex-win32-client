@@ -9,3 +9,5 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\D
 C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Debug\Transcode Tester.exe
 C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Debug\Transcode Tester.pdb
 C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Debug\Plex.Client.Win32.Buffering.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Debug\Transcode Tester.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Debug\Transcode Tester.pdb

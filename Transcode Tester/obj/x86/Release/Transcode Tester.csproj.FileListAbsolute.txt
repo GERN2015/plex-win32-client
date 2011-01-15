@@ -1,0 +1,22 @@
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\ffplay.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\Transcode Tester.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\Transcode Tester.pdb
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Plex.Client.Win32.Buffering.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode_Tester.Form1.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode_Tester.Properties.Resources.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode Tester.exe
+C:\Users\drensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode Tester.pdb
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\ffplay.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\Transcode Tester.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\bin\Release\Transcode Tester.pdb
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Plex.Client.Win32.Buffering.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode_Tester.Form1.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode_Tester.Properties.Resources.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode Tester.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Transcode Tester\obj\x86\Release\Transcode Tester.pdb

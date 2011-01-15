@@ -11,6 +11,8 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
+using System.Web;
+using System.Web.Util;
 
 namespace Transcode_Tester
 {
@@ -33,17 +35,6 @@ namespace Transcode_Tester
 
         private void PlayTranscoded(string part)
         {
-            if (part.IndexOf("http://") != -1)
-            {
-                if (part.IndexOf(":32400") != -1)
-                {
-                    part = part.Substring(part.IndexOf(":32400/") + 6);
-                }
-                else
-                {
-                    return;
-                }
-            }
 
             bool b = false;
             int cnt = 0;
@@ -56,7 +47,7 @@ namespace Transcode_Tester
 
             if (cnt >= 4)
             {
-                MessageBox.Show("Transcoder Error");
+                MessageBox.Show("Transcoder Error");                
                 return;
             }
 
@@ -74,7 +65,7 @@ namespace Transcode_Tester
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
             string time = Math.Round(dTime / 1000).ToString();
-            string url = "/video/:/transcode/segmented/start.m3u8?identifier=com.plexapp.plugins.library&ratingKey=97007888&offset=0&quality=5&url=http%3A%2F%2Flocalhost%3A32400" + Uri.EscapeDataString(part) + "&3g=0&httpCookies=&userAgent=";
+            string url = "/video/:/transcode/segmented/start.m3u8?quality=5&webkit=1&identifier=com.plex.plugins.nasa&url=" + part;
             string msg = url + "@" + time;
             string publicKey = "KQMIY6GATPC63AIMC4R2";
             byte[] privateKey = Convert.FromBase64String("k3U6GLkZOoNIoSgjDshPErvqMIFdE0xMTx8kgsrhnC0=");

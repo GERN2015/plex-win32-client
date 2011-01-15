@@ -32,3 +32,5 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\x86\Debug\ffplay.exe
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.Buffering.resources
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\Plex.Client.Win32.Buffering.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\ResGen.read.1 (from Dkr-w64).tlog
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\x86\Debug\ResGen.write.1 (from Dkr-w64).tlog

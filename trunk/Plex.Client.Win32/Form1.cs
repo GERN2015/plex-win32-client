@@ -998,47 +998,39 @@ namespace Plex.Client.Win32
 
         private void OpenWebPage(string url)
         {
+            //WebPlayer wp = new WebPlayer();
+            //wp.Show();
+            //wp.Play(url);
 
-            if (url.Contains("netflix") || url.Contains("hulu"))
-            {
+            SHDocVw.InternetExplorer ie = new SHDocVw.InternetExplorer();
 
-                WebPlayer wp = new WebPlayer();
-                wp.FormBorderStyle = FormBorderStyle.None;
-                wp.WindowState = FormWindowState.Maximized;
-                wp.Show();
-                wp.Play(url);
-                wp.BringToFront();
-                wp.TopMost = true;
+            ie.DocumentComplete += (object pDisp, ref object URL) => {
 
-                return;
+                ThreadPool.QueueUserWorkItem((o) =>
+                {
+                    try
+                    {
+                        mshtml.HTMLDocument doc = (mshtml.HTMLDocument)ie.Document;
 
-            }
+                        doc.getElementById("player").removeAttribute("style");
+                        doc.getElementById("player").setAttribute("width", "100%");
+                        doc.getElementById("player").setAttribute("height", "100%");
+                        doc.getElementById("player").setAttribute("align", "center");
+                    }
+                    catch
+                    {
+                    }
+                });
 
-            string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\tmp.html";
+            };
 
-            WebClient c = new WebClient();
-            string html = c.DownloadString(url);
+            ie.Visible = true;
+            ie.TheaterMode = true;
+            ie.Navigate(url);
 
-            html = html.Replace("<head>", "<head>\r\n<base href=\"http://www.plexapp.com/player/\"/>");
-            html = html.Replace("<body", "<body onkeydown=\"window.close();\"");
+        }
 
-            Clipboard.SetText(html);
 
-            StreamWriter sw = File.CreateText(FILENAME);
-            sw.Write(html);
-            sw.Flush();
-            sw.Close();
-
-            ProcessStartInfo psi = new ProcessStartInfo(FILENAME);
-            psi.UseShellExecute = true;
-            psi.WindowStyle = ProcessWindowStyle.Maximized;
-
-            Process proc = Process.Start(psi);
-
-            proc.WaitForExit();
-
-            File.Delete(FILENAME);
-        }     
 
         private void HandleKey(KeyEventArgs e)
         {

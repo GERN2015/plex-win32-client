@@ -14,9 +14,9 @@ namespace Plex.Client.Win32
         public WebPlayer()
         {
             InitializeComponent();
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
-            //this.webBrowser1.ScrollBarsEnabled = false;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            this.webBrowser1.ScrollBarsEnabled = false;
             webBrowser1.ScriptErrorsSuppressed = false;
         }
 
@@ -27,8 +27,8 @@ namespace Plex.Client.Win32
 
         public void Play(string url)
         {
-            Clipboard.SetText(url);
             webBrowser1.Navigate(url);
+
         }
 
         private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)

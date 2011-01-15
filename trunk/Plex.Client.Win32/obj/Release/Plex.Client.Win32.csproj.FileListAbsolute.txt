@@ -8,3 +8,22 @@ C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Rele
 C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.csproj.GenerateResource.Cache
 C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.exe
 C:\Users\drensin\Documents\Projects\Plex.Client.Win32\Plex.Client.Win32\obj\Release\Plex.Client.Win32.pdb
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\Plex.Client.Win32.exe.config
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Interop.SHDocVw.dll
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.csproj.ResolveComReference.cache
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.pdb
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\ffplay.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\Plex.Client.Win32.exe
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\Plex.Client.Win32.pdb
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\ZeroconfService.dll
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\Interop.SHDocVw.dll
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Buffering.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Form1.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Properties.Resources.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.ServerSelector.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.WaitBox.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.WebPlayer.resources
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResGen.read.1.tlog
+C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResGen.write.1.tlog

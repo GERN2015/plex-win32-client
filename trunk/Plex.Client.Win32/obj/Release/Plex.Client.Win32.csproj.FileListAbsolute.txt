@@ -24,6 +24,5 @@ C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Properties.Resources.resources
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.ServerSelector.resources
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.WaitBox.resources
-C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.WebPlayer.resources
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResGen.read.1.tlog
 C:\Users\Dave Rensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResGen.write.1.tlog

@@ -744,7 +744,7 @@ namespace Plex.Client.Win32
                     media.Write(data, 0, data.Length);
                     media.Flush();
 
-                    if (ctr == 5)
+                    if (ctr == 10)
                     {
                         ar.Set();
                         bufferBox.Close();
@@ -812,7 +812,7 @@ namespace Plex.Client.Win32
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
             string time = Math.Round(dTime / 1000).ToString();
-            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=5&3g=0&url=" + Uri.EscapeDataString(part);
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=7&3g=0&url=" + Uri.EscapeDataString(part);
 
             if (_isWebkit)
             {
@@ -1015,10 +1015,15 @@ namespace Plex.Client.Win32
                     {
                         mshtml.HTMLDocument doc = (mshtml.HTMLDocument)ie.Document;
 
+                        doc.bgColor = "black";
+
                         doc.getElementById("player").removeAttribute("style");
                         doc.getElementById("player").setAttribute("width", "100%");
                         doc.getElementById("player").setAttribute("height", "100%");
                         doc.getElementById("player").setAttribute("align", "center");
+
+                        MessageBox.Show(doc.body.outerHTML);
+                         
                     }
                     catch
                     {

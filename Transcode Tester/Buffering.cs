@@ -26,5 +26,10 @@ namespace Plex.Client.Win32
         {
         }
 
+        private void Buffering_Shown(object sender, EventArgs e)
+        {
+            this.BringToFront();
+        }
+
     }
 }

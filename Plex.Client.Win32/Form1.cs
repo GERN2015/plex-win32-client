@@ -327,6 +327,9 @@ namespace Plex.Client.Win32
                             newURL = newURL.Substring(newURL.IndexOf("url=") + 4);
                             newURL = Uri.UnescapeDataString(newURL);
 
+                            if (newURL.Contains("hulu"))
+                                _identifier = "com.plex.plugins.hulu";
+
                             OpenWebPage(newURL);
                             return;
                         }
@@ -698,7 +701,8 @@ namespace Plex.Client.Win32
 
         private void PlayTranscodedWithSegments(string part)
         {
-            if (part.IndexOf("http://") != -1)
+
+            if (part.IndexOf("http://") != -1 && _isWebkit == false)
             {
                 if (part.IndexOf(":32400") != -1)
                 {
@@ -740,7 +744,7 @@ namespace Plex.Client.Win32
                     media.Write(data, 0, data.Length);
                     media.Flush();
 
-                    if (ctr == 10)
+                    if (ctr == 5)
                     {
                         ar.Set();
                         bufferBox.Close();
@@ -835,7 +839,6 @@ namespace Plex.Client.Win32
             s = s.Substring(s.IndexOf("session")).Replace("\n", "");
 
             s = FQDN() + "/video/:/transcode/segmented/" + s;
-
 
             try
             {
@@ -1028,9 +1031,12 @@ namespace Plex.Client.Win32
             ie.TheaterMode = true;
             ie.Navigate(url);
 
+            BringWindowToTop(new IntPtr(ie.HWND));
         }
 
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool BringWindowToTop( IntPtr hWnd );
 
         private void HandleKey(KeyEventArgs e)
         {

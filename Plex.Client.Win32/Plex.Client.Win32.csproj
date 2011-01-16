@@ -126,9 +126,6 @@
     <EmbeddedResource Include="WaitBox.resx">
       <DependentUpon>WaitBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WebPlayer.resx">
-      <DependentUpon>WebPlayer.cs</DependentUpon>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -154,12 +151,6 @@
     </Compile>
     <Compile Include="WaitBox.Designer.cs">
       <DependentUpon>WaitBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WebPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WebPlayer.Designer.cs">
-      <DependentUpon>WebPlayer.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -331,7 +331,8 @@ namespace Plex.Client.Win32
                             if (newURL.Contains("hulu"))
                                 _identifier = "com.plex.plugins.hulu";
 
-                            OpenWebPage(newURL);
+                            PlayTranscodedWithSegments(newURL);
+//                            OpenWebPage(newURL);
                             return;
                         }
 
@@ -819,7 +820,7 @@ namespace Plex.Client.Win32
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
             string time = Math.Round(dTime / 1000).ToString();
-            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=7&3g=0&url=" + Uri.EscapeDataString(part);
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=5&3g=0&url=" + Uri.EscapeDataString(part);
 
             if (_isWebkit)
             {
@@ -927,6 +928,16 @@ namespace Plex.Client.Win32
                 //    PlayHttpWithDirectShow(url);
                 //    return;
                 //}
+
+                if (url.IndexOf("hulu") != -1)
+                {
+                    _isWebkit = true;
+                    _identifier = "com.plex.plugins.hulu";
+
+                    PlayTranscodedWithSegments(url);
+                    return;
+                }
+
 
                 OpenWebPage(url);
 

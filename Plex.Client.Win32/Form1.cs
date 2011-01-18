@@ -39,6 +39,7 @@ namespace Plex.Client.Win32
 
         private string _identifier = "";
         private bool _isWebkit = false;
+        private string _sessionCookie = "";
 
         private string FQDN()
         {
@@ -799,6 +800,12 @@ namespace Plex.Client.Win32
 
                 File.Delete(FILENAME);
 
+                WebClient wc = new WebClient();
+                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
+
+                string url = FQDN() + "/video/:/transcode/segmented/stop";
+
+                wc.DownloadString(url);
             });
 
         }
@@ -840,9 +847,13 @@ namespace Plex.Client.Win32
 
             s = FQDN() + "/video/:/transcode/segmented/" + s;
 
+            _sessionCookie = wc.ResponseHeaders[HttpResponseHeader.SetCookie];
+
             try
             {
                 wc = new WebClient();
+                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
+
                 s = wc.DownloadString(s);
             }
             catch
@@ -1021,8 +1032,6 @@ namespace Plex.Client.Win32
                         doc.getElementById("player").setAttribute("width", "100%");
                         doc.getElementById("player").setAttribute("height", "100%");
                         doc.getElementById("player").setAttribute("align", "center");
-
-                        MessageBox.Show(doc.body.outerHTML);
                          
                     }
                     catch

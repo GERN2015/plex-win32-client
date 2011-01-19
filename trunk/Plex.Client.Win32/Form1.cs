@@ -700,7 +700,7 @@ namespace Plex.Client.Win32
             ResumeLayout();
         }
 
-        private void PlayTranscodedWithSegments(string part)
+        private void PlayTranscodedWithSegments(string part, int bufferBlocks = 10, int quality = 5)
         {
 
             if (part.IndexOf("http://") != -1 && _isWebkit == false)
@@ -709,14 +709,20 @@ namespace Plex.Client.Win32
                 {
                     part = part.Substring(part.IndexOf(":32400/") + 6);
                 }
-                //else
-                //{
-                //    PlayHttpWithDirectShow(part);
-                //    return;
-                //}
+                else
+                {
+//                    PlayHttpWithDirectShow(part);
+                    quality = 7;
+                    bufferBlocks = 3;
+                    return;
+                }
             }
 
-            string[] segments = TryTranscodeBySegments(part);
+            Buffering bufferBox = new Buffering(bufferBlocks);
+            bufferBox.Show();
+            Application.DoEvents();
+
+            string[] segments = TryTranscodeBySegments(part, quality);
 
             if (segments.Length == 0)
             {
@@ -733,10 +739,6 @@ namespace Plex.Client.Win32
             {
                 int ctr = 0;
 
-                Buffering bufferBox = new Buffering();
-                bufferBox.Show();
-                Application.DoEvents();
-
                 foreach (string segment in segments)
                 {
                     WebClient fetch = new WebClient();
@@ -745,7 +747,7 @@ namespace Plex.Client.Win32
                     media.Write(data, 0, data.Length);
                     media.Flush();
 
-                    if (ctr == 10 || ctr == segments.Length - 1)
+                    if (ctr == bufferBlocks || ctr == segments.Length - 1)
                     {
                         ar.Set();
 
@@ -813,7 +815,7 @@ namespace Plex.Client.Win32
 
         }
 
-        private string[] TryTranscodeBySegments(string part)
+        private string[] TryTranscodeBySegments(string part, int quality = 5)
         {
             if (part.Contains("http://") == false)
                 part = "http://localhost:32400" + part;
@@ -822,7 +824,7 @@ namespace Plex.Client.Win32
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
             string time = Math.Round(dTime / 1000).ToString();
-            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=5&3g=0&url=" + Uri.EscapeDataString(part);
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=" + quality.ToString() + "&3g=0&url=" + Uri.EscapeDataString(part);
 
             if (_isWebkit)
             {
@@ -885,56 +887,58 @@ namespace Plex.Client.Win32
 
         private void PlayTranscodedLive(string part)
         {
+            PlayTranscodedWithSegments(part, 3, 7);
+            return;
 
-            if (part.IndexOf("http://") != -1 && _isWebkit == false)
-            {
-                if (part.IndexOf(":32400") != -1)
-                {
-                    part = part.Substring(part.IndexOf(":32400/") + 6);
-                }
-            }
+            //if (part.IndexOf("http://") != -1 && _isWebkit == false)
+            //{
+            //    if (part.IndexOf(":32400") != -1)
+            //    {
+            //        part = part.Substring(part.IndexOf(":32400/") + 6);
+            //    }
+            //}
 
-            string info = TryTranscodeLive(part);
+            //string info = TryTranscodeLive(part);
 
-            if (info == null)
-            {
-                MessageBox.Show("transcoder failure");
-                return;
-            }
+            //if (info == null)
+            //{
+            //    MessageBox.Show("transcoder failure");
+            //    return;
+            //}
 
-            string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\media.m3u8";
+            //string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\media.m3u8";
 
-            FileStream media = new FileStream(FILENAME, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            StreamWriter sw = new StreamWriter(media);
+            //FileStream media = new FileStream(FILENAME, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            //StreamWriter sw = new StreamWriter(media);
 
-            sw.Write(info);
-            sw.Flush();
-            media.Flush();
-            sw.Close();
-            media.Close();
+            //sw.Write(info);
+            //sw.Flush();
+            //media.Flush();
+            //sw.Close();
+            //media.Close();
 
 
-            ThreadPool.QueueUserWorkItem((o) =>
-            {
+            //ThreadPool.QueueUserWorkItem((o) =>
+            //{
 
-                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-                psi.FileName = "ffplay.exe";
-                psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
-                psi.UseShellExecute = false;
+            //    System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+            //    psi.FileName = "ffplay.exe";
+            //    psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
+            //    psi.UseShellExecute = false;
 
-                Process proc = Process.Start(psi);
+            //    Process proc = Process.Start(psi);
 
-                proc.WaitForExit();
+            //    proc.WaitForExit();
 
-                File.Delete(FILENAME);
+            //    File.Delete(FILENAME);
 
-                WebClient wc = new WebClient();
-                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
+            //    WebClient wc = new WebClient();
+            //    wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
 
-                string url = FQDN() + "/video/:/transcode/segmented/stop";
+            //    string url = FQDN() + "/video/:/transcode/segmented/stop";
 
-                wc.DownloadString(url);
-            });
+            //    wc.DownloadString(url);
+            //});
 
         }
         

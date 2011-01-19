@@ -11,9 +11,11 @@ namespace Plex.Client.Win32
 {
     public partial class Buffering : Form
     {
-        public Buffering()
+        public Buffering(int blocks = 10)
         {
             InitializeComponent();
+
+            progressBar1.Maximum = blocks;
         }
 
         public void Increment()

@@ -331,8 +331,7 @@ namespace Plex.Client.Win32
                             if (newURL.Contains("hulu"))
                                 _identifier = "com.plex.plugins.hulu";
 
-                            PlayTranscodedWithSegments(newURL);
-//                            OpenWebPage(newURL);
+                            PlayTranscodedLive(newURL);
                             return;
                         }
 
@@ -710,11 +709,11 @@ namespace Plex.Client.Win32
                 {
                     part = part.Substring(part.IndexOf(":32400/") + 6);
                 }
-                else
-                {
-                    PlayHttpWithDirectShow(part);
-                    return;
-                }
+                //else
+                //{
+                //    PlayHttpWithDirectShow(part);
+                //    return;
+                //}
             }
 
             string[] segments = TryTranscodeBySegments(part);
@@ -746,10 +745,13 @@ namespace Plex.Client.Win32
                     media.Write(data, 0, data.Length);
                     media.Flush();
 
-                    if (ctr == 10)
+                    if (ctr == 10 || ctr == segments.Length - 1)
                     {
                         ar.Set();
-                        bufferBox.Close();
+
+                        if ( bufferBox != null )
+                            bufferBox.Close();
+                        
                         bufferBox = null;
                     }
 
@@ -881,10 +883,123 @@ namespace Plex.Client.Win32
             return entries.ToArray();
         }
 
+        private void PlayTranscodedLive(string part)
+        {
+
+            if (part.IndexOf("http://") != -1 && _isWebkit == false)
+            {
+                if (part.IndexOf(":32400") != -1)
+                {
+                    part = part.Substring(part.IndexOf(":32400/") + 6);
+                }
+            }
+
+            string info = TryTranscodeLive(part);
+
+            if (info == null)
+            {
+                MessageBox.Show("transcoder failure");
+                return;
+            }
+
+            string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\media.m3u8";
+
+            FileStream media = new FileStream(FILENAME, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            StreamWriter sw = new StreamWriter(media);
+
+            sw.Write(info);
+            sw.Flush();
+            media.Flush();
+            sw.Close();
+            media.Close();
+
+
+            ThreadPool.QueueUserWorkItem((o) =>
+            {
+
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+                psi.FileName = "ffplay.exe";
+                psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
+                psi.UseShellExecute = false;
+
+                Process proc = Process.Start(psi);
+
+                proc.WaitForExit();
+
+                File.Delete(FILENAME);
+
+                WebClient wc = new WebClient();
+                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
+
+                string url = FQDN() + "/video/:/transcode/segmented/stop";
+
+                wc.DownloadString(url);
+            });
+
+        }
+        
+        private string TryTranscodeLive(string part)
+        {
+            if (part.Contains("http://") == false)
+                part = "http://localhost:32400" + part;
+
+            DateTime jan1 = new DateTime(1970, 1, 1, 0, 0, 0);
+            double dTime = (DateTime.Now - jan1).TotalMilliseconds;
+
+            string time = Math.Round(dTime / 1000).ToString();
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=7&3g=0&url=" + Uri.EscapeDataString(part);
+
+            if (_isWebkit)
+            {
+                url += "&webkit=1";
+            }
+
+            string msg = url + "@" + time;
+            string publicKey = "KQMIY6GATPC63AIMC4R2";
+            byte[] privateKey = Convert.FromBase64String("k3U6GLkZOoNIoSgjDshPErvqMIFdE0xMTx8kgsrhnC0=");
+
+            HMACSHA256 hmac = new HMACSHA256(privateKey);
+            hmac.ComputeHash(UTF8Encoding.UTF8.GetBytes(msg));
+
+            string token = Convert.ToBase64String(hmac.Hash);
+
+            System.Net.WebClient wc = new System.Net.WebClient();
+
+            wc.Headers.Add("X-Plex-Access-Key", publicKey);
+            wc.Headers.Add("X-Plex-Access-Time", time);
+            wc.Headers.Add("X-Plex-Access-Code", token);
+
+            string s = wc.DownloadString(FQDN() + url);
+
+            s = s.Substring(s.IndexOf("session")).Replace("\n", "");
+
+            s = FQDN() + "/video/:/transcode/segmented/" + s;
+
+            _sessionCookie = wc.ResponseHeaders[HttpResponseHeader.SetCookie];
+
+            try
+            {
+                wc = new WebClient();
+                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
+
+                s = wc.DownloadString(s);
+            }
+            catch
+            {
+                return null;
+            }
+
+            s = s.Replace("/video", FQDN() + "/video");
+
+            return s;
+        }
+
         private void PlayStream(string url, int offset)
         {
             if (url.Substring(0, 7).ToLower().CompareTo("plex://") == 0)
             {
+                _isWebkit = url.Contains("webkit");
+
                 Uri uri = new Uri(url);
 
                 url = uri.Query.Split(new char[] { '&' })[0];
@@ -934,10 +1049,9 @@ namespace Plex.Client.Win32
                     _isWebkit = true;
                     _identifier = "com.plex.plugins.hulu";
 
-                    PlayTranscodedWithSegments(url);
+                    PlayTranscodedLive(url);
                     return;
                 }
-
 
                 OpenWebPage(url);
 
@@ -978,7 +1092,7 @@ namespace Plex.Client.Win32
                                 ns.Close();
                                 client.Close();
 
-    //                            PlayTranscoded(url);
+//                                PlayTranscodedWithSegments(url);
                                 PlayHttpWithDirectShow(newURL);
 
                                 break;
@@ -1003,7 +1117,6 @@ namespace Plex.Client.Win32
                         return;
                     }
             
-//                PlayTranscoded(url);
                 PlayTranscodedWithSegments(url);
             }
 

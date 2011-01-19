@@ -18,7 +18,7 @@ namespace Plex.Client.Win32
 
         public void Increment()
         {
-            if (progressBar1.Value < 10)
+            if (progressBar1.Value < progressBar1.Maximum)
                 progressBar1.Value++;
         }
 

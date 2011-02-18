@@ -54,6 +54,9 @@ namespace Plex.Client.Win32
             {
                 if (Properties.Settings.Default.Server.Trim().Length > 0)
                     this.comboBox1.Items.Add(Properties.Settings.Default.Server);
+
+                tbUsername.Text = Properties.Settings.Default.Username.Trim();
+                tbPassword.Text = Properties.Settings.Default.Password.Trim();
             }
             catch
             {
@@ -75,6 +78,8 @@ namespace Plex.Client.Win32
             }
 
             Properties.Settings.Default.Server = ip;
+            Properties.Settings.Default.Password = tbPassword.Text.Trim();
+            Properties.Settings.Default.Username = tbUsername.Text.Trim();
             Properties.Settings.Default.Save();
 
             this.DialogResult = DialogResult.OK;

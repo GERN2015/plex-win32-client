@@ -909,6 +909,8 @@ namespace Plex.Client.Win32
 
             s = FQDN() + "/video/:/transcode/segmented/" + s;
 
+            string begin = s.Replace("index.m3u8","");
+
             _sessionCookie = wc.ResponseHeaders[HttpResponseHeader.SetCookie];
 
             try
@@ -939,8 +941,13 @@ namespace Plex.Client.Win32
 
             while (tmp != null)
             {
-                if (tmp.IndexOf("http://") == 0)
+                if (tmp.IndexOf(".ts") != -1)
+                {
+                    if (tmp.IndexOf("http://") == -1)
+                        tmp = begin + tmp;
+
                     entries.Add(tmp);
+                }
 
                 tmp = sr.ReadLine();
             }

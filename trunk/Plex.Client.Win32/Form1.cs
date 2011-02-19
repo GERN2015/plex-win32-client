@@ -42,6 +42,7 @@ namespace Plex.Client.Win32
         private string _sessionCookie = "";
         private string passwordHash = "";
         private string username = "";
+        private bool _useAuth = true;
 
         private string FQDN()
         {
@@ -195,8 +196,12 @@ namespace Plex.Client.Win32
                 else
                 {
                     WebClient wcArt = new WebClient();
-                    wcArt.Headers["X-Plex-User"] = username;
-                    wcArt.Headers["X-Plex-Pass"] = passwordHash;
+
+                    if (_useAuth == true)
+                    {
+                        wcArt.Headers["X-Plex-User"] = username;
+                        wcArt.Headers["X-Plex-Pass"] = passwordHash;
+                    }
 
                     try
                     {
@@ -461,7 +466,6 @@ namespace Plex.Client.Win32
             }
 
             username = Properties.Settings.Default.Username;
-            wc.Headers["X-Plex-User"] = username;
 
             byte[] pwdBytes = SHA1.Create().ComputeHash(UTF8Encoding.UTF8.GetBytes(Properties.Settings.Default.Password));
 
@@ -479,9 +483,17 @@ namespace Plex.Client.Win32
 
             passwordHash = pwdHashString;
 
-            wc.Headers["X-Plex-User"] = username;
-            wc.Headers["X-Plex-Pass"] = passwordHash;
+            if (username == null || username.Length == 0)
+            {
+                _useAuth = false;
+            }
+            else
+            {
+                _useAuth = true;
+                wc.Headers["X-Plex-User"] = username;
+                wc.Headers["X-Plex-Pass"] = passwordHash;
 
+            }
             string baseuri = FQDN() + "/library/sections/";
 
             FillListFromUrl(baseuri, 0);
@@ -768,8 +780,12 @@ namespace Plex.Client.Win32
                 foreach (string segment in segments)
                 {
                     WebClient fetch = new WebClient();
-                    fetch.Headers["X-Plex-User"] = username;
-                    fetch.Headers["X-Plex-Pass"] = passwordHash;
+
+                    if (_useAuth == true)
+                    {
+                        fetch.Headers["X-Plex-User"] = username;
+                        fetch.Headers["X-Plex-Pass"] = passwordHash;
+                    }
 
                     byte[] data = fetch.DownloadData(segment);
 
@@ -836,8 +852,12 @@ namespace Plex.Client.Win32
 
                 WebClient wc = new WebClient();
                 wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
-                wc.Headers["X-Plex-User"] = username;
-                wc.Headers["X-Plex-Pass"] = passwordHash;
+
+                if (_useAuth == true)
+                {
+                    wc.Headers["X-Plex-User"] = username;
+                    wc.Headers["X-Plex-Pass"] = passwordHash;
+                }
 
                 string url = FQDN() + "/video/:/transcode/segmented/stop";
 
@@ -876,8 +896,12 @@ namespace Plex.Client.Win32
             wc.Headers.Add("X-Plex-Access-Key", publicKey);
             wc.Headers.Add("X-Plex-Access-Time", time);
             wc.Headers.Add("X-Plex-Access-Code", token);
-            wc.Headers["X-Plex-User"] = username;
-            wc.Headers["X-Plex-Pass"] = passwordHash;
+
+            if (_useAuth == true)
+            {
+                wc.Headers["X-Plex-User"] = username;
+                wc.Headers["X-Plex-Pass"] = passwordHash;
+            }
 
             string s = wc.DownloadString(FQDN() + url);
 
@@ -891,8 +915,12 @@ namespace Plex.Client.Win32
             {
                 wc = new WebClient();
                 wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
-                wc.Headers["X-Plex-User"] = username;
-                wc.Headers["X-Plex-Pass"] = passwordHash;
+
+                if (_useAuth == true)
+                {
+                    wc.Headers["X-Plex-User"] = username;
+                    wc.Headers["X-Plex-Pass"] = passwordHash;
+                }
 
                 s = wc.DownloadString(s);
             }
@@ -1007,8 +1035,12 @@ namespace Plex.Client.Win32
             wc.Headers.Add("X-Plex-Access-Key", publicKey);
             wc.Headers.Add("X-Plex-Access-Time", time);
             wc.Headers.Add("X-Plex-Access-Code", token);
-            wc.Headers["X-Plex-User"] = username;
-            wc.Headers["X-Plex-Pass"] = passwordHash;
+
+            if (_useAuth == true)
+            {
+                wc.Headers["X-Plex-User"] = username;
+                wc.Headers["X-Plex-Pass"] = passwordHash;
+            }
 
             string s = wc.DownloadString(FQDN() + url);
 
@@ -1022,8 +1054,12 @@ namespace Plex.Client.Win32
             {
                 wc = new WebClient();
                 wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
-                wc.Headers["X-Plex-User"] = username;
-                wc.Headers["X-Plex-Pass"] = passwordHash;
+
+                if (_useAuth == true)
+                {
+                    wc.Headers["X-Plex-User"] = username;
+                    wc.Headers["X-Plex-Pass"] = passwordHash;
+                }
 
                 s = wc.DownloadString(s);
             }

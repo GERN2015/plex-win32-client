@@ -21,7 +21,7 @@ namespace Plex.Client.Win32
     {
         #region Vars
 
-        private WebClient wc = null;
+        private WebClient _wc = null;
 
         private string _oldArt = "", _containerArt = "";
         private Stack<string> _history = new Stack<string>();
@@ -67,8 +67,8 @@ namespace Plex.Client.Win32
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
 
-            wc = new WebClient();
-            wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
+            _wc = new WebClient();
+            _wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -206,6 +206,8 @@ namespace Plex.Client.Win32
                     try
                     {
                         data = wcArt.DownloadData(art);
+                        wcArt.Dispose();
+
                         MemoryStream ms = new MemoryStream(data);
                         img = Image.FromStream(ms);
 
@@ -340,7 +342,8 @@ namespace Plex.Client.Win32
                             if (newURL.Contains("hulu"))
                                 _identifier = "com.plex.plugins.hulu";
 
-                            PlayTranscodedLive(newURL);
+//                            PlayTranscodedLive(newURL);
+                            OpenWebPage(newURL);
                             return;
                         }
 
@@ -490,8 +493,8 @@ namespace Plex.Client.Win32
             else
             {
                 _useAuth = true;
-                wc.Headers["X-Plex-User"] = username;
-                wc.Headers["X-Plex-Pass"] = passwordHash;
+                _wc.Headers["X-Plex-User"] = username;
+                _wc.Headers["X-Plex-Pass"] = passwordHash;
 
             }
             string baseuri = FQDN() + "/library/sections/";
@@ -508,12 +511,13 @@ namespace Plex.Client.Win32
 
             try
             {
-                wc.CancelAsync();
+                _wc.CancelAsync();
             }
             catch
             {
             }
-            wc.DownloadStringAsync(new Uri(url), url);
+            
+            _wc.DownloadStringAsync(new Uri(url), url);
 
         }
         
@@ -756,29 +760,31 @@ namespace Plex.Client.Win32
                 }
             }
 
-            Buffering bufferBox = new Buffering(bufferBlocks);
-            bufferBox.Show();
-            Application.DoEvents();
 
             string[] segments = TryTranscodeBySegments(part, quality);
 
             if (segments.Length == 0)
             {
                 MessageBox.Show("transcoder failure");
-                return;
+
             }
 
             string FILENAME = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\media.ts";
 
             AutoResetEvent ar = new AutoResetEvent(false);
             FileStream media = new FileStream(FILENAME, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            int ctr = 0;
 
-            Thread t = new Thread((o) =>
+            Thread t = new Thread((arg) =>
             {
-                int ctr = 0;
+
+                Buffering bufferBox = new Buffering(bufferBlocks);
+                bufferBox.Show();
+                Application.DoEvents();
 
                 foreach (string segment in segments)
                 {
+
                     WebClient fetch = new WebClient();
 
                     if (_useAuth == true)
@@ -788,82 +794,86 @@ namespace Plex.Client.Win32
                     }
 
                     byte[] data = fetch.DownloadData(segment);
+                    fetch.Dispose();
 
                     media.Write(data, 0, data.Length);
                     media.Flush();
 
                     if (ctr == bufferBlocks || ctr == segments.Length - 1)
                     {
-                        ar.Set();
-
-                        if ( bufferBox != null )
+                        try
+                        {
                             bufferBox.Close();
-                        
-                        bufferBox = null;
+                        }
+                        catch
+                        {
+                        }
+
+                        ar.Set();
                     }
 
 
-                    if (bufferBox != null) {
-
-                        bufferBox.Increment();
+                    if (bufferBox.Visible == true)
+                    {
+                        try
+                        {
+                            bufferBox.Increment();
+                        }
+                        catch
+                        {
+                        }
                     }
 
                     ctr++;
 
                 }
-                
+
             });
 
             t.Start();
 
             ar.WaitOne();
 
-            ThreadPool.QueueUserWorkItem((o) =>
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+            psi.FileName = "ffplay.exe";
+            psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
+            psi.UseShellExecute = false;
+
+            Process proc = Process.Start(psi);
+
+            proc.WaitForExit();
+
+            try
             {
+                t.Abort();
+            }
+            catch
+            {
+            }
 
-                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-                psi.FileName = "ffplay.exe";
-                psi.Arguments = "-sync audio -fs \"" + FILENAME + "\"";
-                psi.UseShellExecute = false;
+            try
+            {
+                media.Close();
+            }
+            catch
+            {
+            }
 
-                Process proc = Process.Start(psi);
+            File.Delete(FILENAME);
 
-                proc.WaitForExit();
+            WebClient wc = new WebClient();
+            wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
 
+            if (_useAuth == true)
+            {
+                wc.Headers["X-Plex-User"] = username;
+                wc.Headers["X-Plex-Pass"] = passwordHash;
+            }
 
-                try
-                {
-                    if (t.IsAlive)
-                        t.Abort();
-                }
-                catch
-                {
-                }
+            string url = FQDN() + "/video/:/transcode/segmented/stop";
 
-                try
-                {
-                    media.Close();
-                }
-                catch
-                {
-                }
-
-                File.Delete(FILENAME);
-
-                WebClient wc = new WebClient();
-                wc.Headers[HttpRequestHeader.Cookie] = _sessionCookie;
-
-                if (_useAuth == true)
-                {
-                    wc.Headers["X-Plex-User"] = username;
-                    wc.Headers["X-Plex-Pass"] = passwordHash;
-                }
-
-                string url = FQDN() + "/video/:/transcode/segmented/stop";
-
-                wc.DownloadString(url);
-            });
-
+            wc.DownloadStringAsync(new Uri(url));
         }
 
         private string[] TryTranscodeBySegments(string part, int quality = 5)
@@ -904,6 +914,7 @@ namespace Plex.Client.Win32
             }
 
             string s = wc.DownloadString(FQDN() + url);
+            wc.Dispose();
 
             s = s.Substring(s.IndexOf("session")).Replace("\n", "");
 
@@ -925,9 +936,13 @@ namespace Plex.Client.Win32
                 }
 
                 s = wc.DownloadString(s);
+                wc.Dispose();
+
             }
-            catch
+            catch(Exception x)
             {
+                MessageBox.Show(x.ToString() + "\r\n" + s);
+
                 return new string[]{};
             }
 
@@ -1050,6 +1065,7 @@ namespace Plex.Client.Win32
             }
 
             string s = wc.DownloadString(FQDN() + url);
+            wc.Dispose();
 
             s = s.Substring(s.IndexOf("session")).Replace("\n", "");
 
@@ -1069,6 +1085,7 @@ namespace Plex.Client.Win32
                 }
 
                 s = wc.DownloadString(s);
+                wc.Dispose();
             }
             catch
             {
@@ -1202,8 +1219,16 @@ namespace Plex.Client.Win32
 
                         return;
                     }
-            
-                PlayTranscodedWithSegments(url);
+
+                if (url.Contains(FQDN()) == true)
+                {
+                    PlayTranscodedWithSegments(url);
+                }
+                else
+                {
+                    PlayHttpWithDirectShow(url);
+                }
+                
             }
 
         }

@@ -15,6 +15,12 @@ namespace Plex.Client.Win32
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += (a, b) =>
+            {
+
+            };
+
             Application.Run(new Form1());
         }
     }

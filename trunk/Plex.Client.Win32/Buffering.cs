@@ -20,12 +20,15 @@ namespace Plex.Client.Win32
 
         public void Increment()
         {
-            if (progressBar1.Value < progressBar1.Maximum)
+            if ( progressBar1.Value < progressBar1.Maximum)
+            {
                 progressBar1.Value++;
+            }
         }
 
         private void WaitBox_VisibleChanged(object sender, EventArgs e)
         {
+            progressBar1.Value = 0;
         }
 
     }

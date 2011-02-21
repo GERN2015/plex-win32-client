@@ -478,14 +478,14 @@ namespace Plex.Client.Win32
 
             username = Properties.Settings.Default.Username;
 
-            byte[] pwdBytes = SHA1.Create().ComputeHash(UTF8Encoding.UTF8.GetBytes(Properties.Settings.Default.Password));
+            byte[] pwdBytes = SHA1.Create().ComputeHash(Encoding.Default.GetBytes(Properties.Settings.Default.Password));
 
             string pwdHashString = "";
 
             foreach (byte b in pwdBytes)
                 pwdHashString += String.Format("{0:x2}", b);
 
-            pwdBytes = SHA1.Create().ComputeHash(UTF8Encoding.UTF8.GetBytes(Properties.Settings.Default.Username + pwdHashString));
+            pwdBytes = SHA1.Create().ComputeHash(Encoding.Default.GetBytes(Properties.Settings.Default.Username + pwdHashString));
 
             pwdHashString = "";
 

@@ -321,9 +321,17 @@ namespace Plex.Client.Win32
                         StreamWriter sw = new System.IO.StreamWriter(ns);
                         StreamReader sr = new System.IO.StreamReader(ns);
 
-                        sw.Write("GET " + uri.AbsolutePath + " HTTP/1.0\r\n\r\n");
-                        sw.Flush();
+                        sw.Write("GET " + uri.AbsolutePath + " HTTP/1.0\r\n");
 
+                        if (_useAuth == true)
+                        {
+                            sw.WriteLine("X-Plex-User: " + username);
+                            sw.WriteLine("X-Plex-Pass: " + passwordHash);
+                        }
+
+                        sw.WriteLine();
+
+                        sw.Flush();
                         sr.ReadLine();
 
                         string newURL = sr.ReadLine().Substring(10);
@@ -1152,7 +1160,7 @@ namespace Plex.Client.Win32
                     _isWebkit = true;
                     _identifier = "com.plex.plugins.hulu";
 
-                    PlayTranscodedLive(url);
+                    OpenWebPage(url);
                     return;
                 }
 
@@ -1177,7 +1185,14 @@ namespace Plex.Client.Win32
                         StreamReader r = new StreamReader(ns);
 
                         w.WriteLine("GET " + url + " HTTP/1.0");
-                        w.WriteLine("");
+
+                        if (_useAuth == true)
+                        {
+                            w.WriteLine("X-Plex-User: " + username);
+                            w.WriteLine("X-Plex-Pass: " + passwordHash);
+                        }
+
+                        w.WriteLine();
                         w.Flush();
 
                         string s = r.ReadLine();

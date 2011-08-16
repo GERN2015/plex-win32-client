@@ -761,7 +761,7 @@ namespace Plex.Client.Win32
             ResumeLayout();
         }
 
-        private void PlayTranscodedWithSegments(string part, int bufferBlocks = 10, int quality = 8)
+        private void PlayTranscodedWithSegments(string part, int bufferBlocks = 20, int quality = 10)
         {
 
             if (part.IndexOf("http://") != -1 && _isWebkit == false)
@@ -773,8 +773,8 @@ namespace Plex.Client.Win32
                 else
                 {
 //                    PlayHttpWithDirectShow(part);
-                    quality = 8;
-                    bufferBlocks = 3;
+                    quality = 10;
+                    bufferBlocks = 20;
                     return;
                 }
             }
@@ -896,7 +896,7 @@ namespace Plex.Client.Win32
             wc.DownloadStringAsync(new Uri(url));
         }
 
-        private string[] TryTranscodeBySegments(string part, int quality = 8)
+        private string[] TryTranscodeBySegments(string part, int quality = 10)
         {
             if (part.Contains("http://") == false)
                 part = "http://localhost:32400" + part;
@@ -1056,7 +1056,7 @@ namespace Plex.Client.Win32
             double dTime = (DateTime.Now - jan1).TotalMilliseconds;
 
             string time = Math.Round(dTime / 1000).ToString();
-            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=8&3g=0&url=" + Uri.EscapeDataString(part);
+            string url = "/video/:/transcode/segmented/start.m3u8?identifier=" + _identifier + "&quality=10&3g=0&url=" + Uri.EscapeDataString(part);
 
             if (_isWebkit)
             {

@@ -38,7 +38,6 @@ C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Rele
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\bin\Release\Interop.SHDocVw.dll
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\ResolveAssemblyReference.cache
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Buffering.resources
-C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Form1.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Properties.Resources.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.ServerSelector.resources
 C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.WaitBox.resources
@@ -64,3 +63,8 @@ C:\Development\PlexWin\Plex.Client.Win32\obj\Release\GenerateResource-ResGen.rea
 C:\Development\PlexWin\Plex.Client.Win32\obj\Release\GenerateResource-ResGen.write.1.tlog
 C:\Development\PlexWin\Plex.Client.Win32\obj\Release\Plex.Client.Win32.exe
 C:\Development\PlexWin\Plex.Client.Win32\obj\Release\Plex.Client.Win32.pdb
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.MainPlexForm.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\Plex.Client.Win32.Settings.resources
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\GenerateResource-ResGen.read.1.tlog
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\GenerateResource-ResGen.read.4.tlog
+C:\Users\drensin\Documents\Projects\plex-win32-client\Plex.Client.Win32\obj\Release\GenerateResource-ResGen.write.1.tlog

@@ -17,7 +17,7 @@ using System.Threading;
 
 namespace Plex.Client.Win32
 {
-    public partial class Form1 : Form
+    public partial class MainPlexForm : Form
     {
         #region Vars
 
@@ -35,8 +35,9 @@ namespace Plex.Client.Win32
 
         private int _selection = 0;
 
-        private bool _firstConnect = true;
-
+        private bool _firstConnect = false;
+        private Enums.PlaybackType _playbackType;
+        
         private string _identifier = "";
         private bool _isWebkit = false;
         private string _sessionCookie = "";
@@ -60,7 +61,7 @@ namespace Plex.Client.Win32
 
         #region UI
         
-        public Form1()
+        public MainPlexForm()
         {
             InitializeComponent();
 
@@ -279,17 +280,23 @@ namespace Plex.Client.Win32
                 {
                     System.Threading.Thread.Sleep(250);
 
-                    Invoke( new EventHandler((o, parms) =>
-                    {
-                        ConnectToServer();
-                    }));
+                    Invoke(new EventHandler((o, parms) => {
+                            ConnectToServer();
+                        }));
+                        
                 });
+                    
 
                 return;
             }
 
-            if (node.Name.CompareTo("Video") == 0)
-            {
+            if (node.Attributes["key"] != null && node.Attributes["key"].Value.CompareTo("Settings") == 0) {
+                ShowSettings();
+                
+                return;
+            }
+
+            if (node.Name.CompareTo("Video") == 0) {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(node.OuterXml);
 
@@ -298,21 +305,18 @@ namespace Plex.Client.Win32
                 string playuri = "";
                 int offset = 0;
 
-                if (node.Attributes["viewOffset"] != null)
-                {
+                if (node.Attributes["viewOffset"] != null) {
                     offset = int.Parse(node.Attributes["viewOffset"].Value);
                 }
 
-                if (mediaPart != null)
-                {
+                if (mediaPart != null) {
                     string file = mediaPart.Attributes["file"].Value;
 
                     playuri = FQDN() + mediaPart.Attributes["key"].Value;
 
                     _isWebkit = playuri.Contains("webkit");
 
-                    if (file.EndsWith(".strm"))
-                    {
+                    if (file.EndsWith(".strm")) {
                         Uri uri = new Uri(playuri);
 
                         TcpClient tcp = new TcpClient(uri.Host, uri.Port);
@@ -323,8 +327,7 @@ namespace Plex.Client.Win32
 
                         sw.Write("GET " + uri.AbsolutePath + " HTTP/1.0\r\n");
 
-                        if (_useAuth == true)
-                        {
+                        if (_useAuth == true) {
                             sw.WriteLine("X-Plex-User: " + username);
                             sw.WriteLine("X-Plex-Pass: " + passwordHash);
                         }
@@ -341,8 +344,7 @@ namespace Plex.Client.Win32
                         sr.Close();
                         tcp.Close();
 
-                        if (newURL.IndexOf("webkit") != -1)
-                        {
+                        if (newURL.IndexOf("webkit") != -1) {
                             _isWebkit = true;
                             newURL = newURL.Substring(newURL.IndexOf("url=") + 4);
                             newURL = Uri.UnescapeDataString(newURL);
@@ -350,7 +352,7 @@ namespace Plex.Client.Win32
                             if (newURL.Contains("hulu"))
                                 _identifier = "com.plex.plugins.hulu";
 
-//                            PlayTranscodedLive(newURL);
+                            //                            PlayTranscodedLive(newURL);
                             OpenWebPage(newURL);
                             return;
                         }
@@ -359,28 +361,20 @@ namespace Plex.Client.Win32
                         return;
                     }
 
-                }
-                else
-                {
+                } else {
                     XmlNode video = doc.SelectSingleNode("//Video");
 
-                    if (video != null)
-                    {
+                    if (video != null) {
                         XmlAttribute key = video.Attributes["key"];
 
-                        if (key == null)
-                        {
+                        if (key == null) {
                             MessageBox.Show("This is no URL listed for this item... Sorry...", "Can't Fetch This!");
                             return;
-                        }
-                        else
-                        {
+                        } else {
                             playuri = key.Value;
                         }
-                    
-                    }
-                    else
-                    {
+
+                    } else {
                         playuri = "";
                     }
                 }
@@ -388,9 +382,10 @@ namespace Plex.Client.Win32
                 _isWebkit = playuri.Contains("webkit");
 
                 PlayStream(playuri, offset);
-//                PlayTranscoded(playuri);
+                //                PlayTranscoded(playuri);
 
-                    return;
+                return;
+            
             }
 
             string url = _history.Peek() + node.Attributes["key"].Value + "/";
@@ -444,6 +439,16 @@ namespace Plex.Client.Win32
 
         #region Methods
 
+        private void ShowSettings() {
+
+            Settings settings = new Settings();
+            settings.Parent = null;
+            settings.TopMost = true;
+
+            settings.ShowDialog();
+
+        }
+
         private void ConnectToServer()
         {
 
@@ -451,7 +456,7 @@ namespace Plex.Client.Win32
 
             if (Properties.Settings.Default.Server == null || Properties.Settings.Default.Server.Length == 0 || args.Contains("-last-server") == false || _firstConnect == false)
             {
-                _firstConnect = false;
+                //_firstConnect = false;
 
                 int i = 0;
 
@@ -464,17 +469,24 @@ namespace Plex.Client.Win32
 
                 DialogResult dr = selector.ShowDialog();
 
-                if (dr != DialogResult.OK)
+                if ( (dr != DialogResult.OK) && (!_firstConnect)) {
+                    this.Close();
                     return;
+                }
+                    
             }
-
-            _firstConnect = false;
 
             if (Properties.Settings.Default.Server == null || Properties.Settings.Default.Server.Length == 0)
             {
-                MessageBox.Show("Hmmm....  We got an empty server selection... That won't due. Please report to the devs..");
-                return;
+                MessageBox.Show("Hmmm....  We got an empty server selection... That won't do.  Please report to the devs..","Connection Failure",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                if (!_firstConnect) {
+                    this.Close();
+                    return;
+                }
+                
             }
+
+            _firstConnect = false;
 
             username = Properties.Settings.Default.Username;
 
@@ -519,7 +531,9 @@ namespace Plex.Client.Win32
             string baseuri = FQDN() + "/library/sections/";
 
             FillListFromUrl(baseuri, 0);
+            _firstConnect = true;
         }
+        
         private void FillListFromUrl(string url, int selection)
         {
             _wb.Start();
@@ -541,6 +555,7 @@ namespace Plex.Client.Win32
         }
         
         private delegate void FillListBoxDelegate(string url, string xml);
+        
         void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -567,6 +582,7 @@ namespace Plex.Client.Win32
             }
 
         }
+        
         private void FillListBox(string url, string xml)
         {
             SuspendLayout();
@@ -608,6 +624,7 @@ namespace Plex.Client.Win32
 
             _wb.Stop();
         }
+        
         private void ParseEntries(string url, XmlNodeList entries)
         {
             Uri uri = new Uri(url);
@@ -694,6 +711,19 @@ namespace Plex.Client.Win32
                 itm.Tag = connectTo;
                 itm.ImageIndex = 0;
 
+                XmlNode prefs = doc.CreateNode(XmlNodeType.Element, "Directory", "");
+                attr = prefs.Attributes.Append(doc.CreateAttribute("title"));
+                attr.Value = "Settings";
+                attr = prefs.Attributes.Append(doc.CreateAttribute("key"));
+                attr.Value = "Settings";
+                attr = prefs.Attributes.Append(doc.CreateAttribute("art"));
+                attr.Value = "Quit";
+
+                itm = listView1.Items.Add("Settings");
+
+                itm.Tag = prefs;
+                itm.ImageIndex = 0;
+
                 XmlNode quit = doc.CreateNode(XmlNodeType.Element, "Directory", "");
                 attr = quit.Attributes.Append(doc.CreateAttribute("title"));
                 attr.Value = "Quit";
@@ -752,6 +782,7 @@ namespace Plex.Client.Win32
 
             return result;
         }
+        
         private void LoadGenericArt()
         {
             Image old = pictureBox1.Image;
@@ -1249,7 +1280,22 @@ namespace Plex.Client.Win32
 
                 if (url.Contains(FQDN()) == true)
                 {
-                    PlayTranscodedWithSegments(url);
+                    _playbackType = (Enums.PlaybackType)Properties.Settings.Default.PlaybackMode;
+
+                    switch (_playbackType) {
+                        case Enums.PlaybackType.UseFFPlayDirect:
+                            PlayHttpWithDirectShow(url);
+                            break;
+                        case Enums.PlaybackType.UseOtherMP:
+                            PlayHttpStreamWithOtherMP(url);
+                            break;
+                        case Enums.PlaybackType.UseFFPlayStream:
+                            PlayTranscodedWithSegments(url);
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
                 else
                 {
@@ -1269,6 +1315,17 @@ namespace Plex.Client.Win32
             psi.Arguments = "-fs \"" + newURL + "\"";
             psi.UseShellExecute = false;
             
+            Process.Start(psi);
+        }
+
+        private void PlayHttpStreamWithOtherMP(string newURL) {
+            Clipboard.SetText(newURL);
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+            psi.FileName = Properties.Settings.Default.PlayerPath;
+            psi.Arguments = "\"" + newURL + "\" " + Properties.Settings.Default.PlayerArgs;
+            psi.UseShellExecute = false;
+
             Process.Start(psi);
         }
 

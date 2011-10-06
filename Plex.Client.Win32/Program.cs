@@ -21,7 +21,7 @@ namespace Plex.Client.Win32
 
             };
 
-            Application.Run(new Form1());
+            Application.Run(new MainPlexForm());
         }
     }
 }

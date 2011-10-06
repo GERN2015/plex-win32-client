@@ -97,5 +97,13 @@ namespace Plex.Client.Win32
                 ItemPicked(comboBox1.Text);
         }
 
+        private void btnOK_Click(object sender, EventArgs e) {
+            ItemPicked(comboBox1.Text);
+        }
+
+        private void btnQuit_Click(object sender, EventArgs e) {
+            this.Close();
+        }
+
     }
 }

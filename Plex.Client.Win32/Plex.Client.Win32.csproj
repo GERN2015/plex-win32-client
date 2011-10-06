@@ -101,19 +101,21 @@
     <Compile Include="Buffering.Designer.cs">
       <DependentUpon>Buffering.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Enums.cs" />
+    <Compile Include="MainPlexForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainPlexForm.Designer.cs">
+      <DependentUpon>MainPlexForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Playback.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Buffering.resx">
       <DependentUpon>Buffering.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainPlexForm.resx">
+      <DependentUpon>MainPlexForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -122,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ServerSelector.resx">
       <DependentUpon>ServerSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitBox.resx">
       <DependentUpon>WaitBox.cs</DependentUpon>
@@ -145,6 +150,12 @@
     </Compile>
     <Compile Include="ServerSelector.Designer.cs">
       <DependentUpon>ServerSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="WaitBox.cs">
       <SubType>Form</SubType>

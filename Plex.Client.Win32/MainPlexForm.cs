@@ -332,7 +332,9 @@ namespace Plex.Client.Win32
                 doc.LoadXml(node.OuterXml);
 
                 XmlNode videoNode = doc.SelectSingleNode("Video");
-                _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
+
+                if (videoNode.Attributes["ratingKey"] != null)
+                    _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
 
                 XmlNode mediaPart = doc.SelectSingleNode("//Media/Part");
 
@@ -1334,17 +1336,20 @@ namespace Plex.Client.Win32
 
                 if (url.Contains(FQDN()) == true)
                 {
-                    string setWatchedURL = FQDN() + "/:/scrobble?key=" + _currentRatingKey + "&identifier=com.plexapp.plugins.library";
-
-                    SetWatchedStatus(setWatchedURL);
                     
-                    _playbackType = (Enums.PlaybackType)Properties.Settings.Default.PlaybackMode;
+                    if (url.Contains("plugin")){
+                        _playbackType = Enums.PlaybackType.UseFFPlayStream;
+                    }else{
+                        _playbackType = (Enums.PlaybackType)Properties.Settings.Default.PlaybackMode;
+                    }
 
                     switch (_playbackType) {
                         case Enums.PlaybackType.UseFFPlayDirect:
                             PlayHttpWithDirectShow(url);
                             break;
                         case Enums.PlaybackType.UseOtherMP:
+                            string setWatchedURL = FQDN() + "/:/scrobble?key=" + _currentRatingKey + "&identifier=com.plexapp.plugins.library";
+                            SetWatchedStatus(setWatchedURL);
                             PlayHttpStreamWithOtherMP(url);
                             break;
                         case Enums.PlaybackType.UseFFPlayStream:

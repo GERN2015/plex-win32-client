@@ -37,14 +37,16 @@ namespace Plex.Client.Win32
 
         private bool _firstConnect = false;
         private Enums.PlaybackType _playbackType;
-        
-        private string _identifier = "";
-        private bool _isWebkit = false;
-        private string _sessionCookie = "";
-        private string passwordHash = "";
-        private string username = "";
-        private bool _useAuth = true;
 
+        private string _currentRatingKey = string.Empty;
+        private string _identifier = string.Empty;
+        private bool _isWebkit = false;
+        private string _sessionCookie = string.Empty;
+        private string passwordHash = string.Empty;
+        private string username = string.Empty;
+        private bool _useAuth = true;
+        private string _cachedUrl;
+        private XmlNodeList _cachedentries;
         private string FQDN()
         {
             if (Properties.Settings.Default.Server.Contains(@"http://"))
@@ -94,6 +96,34 @@ namespace Plex.Client.Win32
             ResumeLayout();
         }
 
+        private void listView1_MouseClick(object sender, MouseEventArgs e) {
+            
+            if (e.Button == System.Windows.Forms.MouseButtons.Right) {
+
+                string viewCount = string.Empty;
+
+                XmlNode node = (XmlNode)listView1.SelectedItems[0].Tag;
+
+                if (node.Name.CompareTo("Video") == 0) {
+                    
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(node.OuterXml);
+                    XmlNode videoNode = doc.SelectSingleNode("Video");
+                    _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
+
+                    if (videoNode.Attributes["viewCount"] != null) {
+                        
+                        viewCount = videoNode.Attributes["viewCount"].Value;
+                        mnuUnwatched.Visible = true;
+                        mnuWatched.Visible = false;
+                    } else {
+                        mnuUnwatched.Visible = false;
+                        mnuWatched.Visible = true;                       
+                    }
+                    contextMenu.Show(Cursor.Position);
+                }
+            }
+        }
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (e.IsSelected == false)
@@ -265,6 +295,7 @@ namespace Plex.Client.Win32
             if (node.Attributes["identifier"] != null)
             {
                 _identifier = node.Attributes["identifier"].Value;
+                
             }
 
             if (node.Attributes["key"] != null && node.Attributes["key"].Value.CompareTo("Quit") == 0)
@@ -299,6 +330,9 @@ namespace Plex.Client.Win32
             if (node.Name.CompareTo("Video") == 0) {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(node.OuterXml);
+
+                XmlNode videoNode = doc.SelectSingleNode("Video");
+                _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
 
                 XmlNode mediaPart = doc.SelectSingleNode("//Media/Part");
 
@@ -433,6 +467,24 @@ namespace Plex.Client.Win32
             e.DrawFocusRectangle();
 
             e.Graphics.DrawString(e.Item.Text, e.Item.Font, Brushes.White, textBounds, StringFormat.GenericTypographic);
+        }
+
+        private void contextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+
+            string setWatchedURL = string.Empty;
+
+            switch (e.ClickedItem.Name) {
+                case "mnuWatched":
+                    setWatchedURL = FQDN() + "/:/scrobble?key=" + _currentRatingKey + "&identifier=com.plexapp.plugins.library";
+
+                    break;
+                case "mnuUnwatched":
+                    setWatchedURL = FQDN() + "/:/unscrobble?key=" + _currentRatingKey + "&identifier=com.plexapp.plugins.library";
+                    break;
+            }
+
+            SetWatchedStatus(setWatchedURL);
+            
         }
         
         #endregion
@@ -655,25 +707,27 @@ namespace Plex.Client.Win32
                 {
 
                     XmlAttribute gpt = entry.Attributes["grandparentTitle"];
-
-                    if (gpt != null)
-                    {
-                        if (url.Contains("/allLeaves") == false)
-                        {
+                    if (gpt != null){
+                        if (url.Contains("/allLeaves") == false){
                             text = gpt.Value + "\r\nSeason " + entry.Attributes["parentIndex"].Value + " / Episode " + entry.Attributes["index"].Value + "\r\n" + text;
                         }
-                        else
-                        {
+                        else{
                             text = "Season " + entry.Attributes["parentIndex"].Value + " / Episode " + entry.Attributes["index"].Value + "\r\n" + text;
 
                         }
 
-                    }
-                    else
-                    {
+                    }else{
                         text = entry.Attributes["index"].Value + " - " + text;
                     }
+
+                    XmlAttribute viewCount = entry.Attributes["viewCount"];
+                    if (viewCount != null)
+                        text = "(*) " + text;
+
+                    _cachedUrl = url;
+                    _cachedentries = entries;
                 }
+
 
                 ListViewItem item = listView1.Items.Add(text);
 
@@ -1280,6 +1334,10 @@ namespace Plex.Client.Win32
 
                 if (url.Contains(FQDN()) == true)
                 {
+                    string setWatchedURL = FQDN() + "/:/scrobble?key=" + _currentRatingKey + "&identifier=com.plexapp.plugins.library";
+
+                    SetWatchedStatus(setWatchedURL);
+                    
                     _playbackType = (Enums.PlaybackType)Properties.Settings.Default.PlaybackMode;
 
                     switch (_playbackType) {
@@ -1303,6 +1361,43 @@ namespace Plex.Client.Win32
                 }
                 
             }
+
+        }
+
+        public void SetWatchedStatus(string StrURL) {
+            
+            HttpWebRequest objRequest = null;
+            IAsyncResult ar = null;
+            HttpWebResponse objResponse = null;
+            StreamReader objs = null;
+            try {
+
+                objRequest = (HttpWebRequest)WebRequest.Create(StrURL);
+                ar = objRequest.BeginGetResponse(new AsyncCallback(GetScrapingResponse), objRequest);
+
+                //// Wait for request to complete
+                ar.AsyncWaitHandle.WaitOne(1000 * 60, true);
+                if (objRequest.HaveResponse == false) {
+                    throw new Exception("No Response!!!");
+                }
+
+                objResponse = (HttpWebResponse)objRequest.EndGetResponse(ar);
+                objs = new StreamReader(objResponse.GetResponseStream());
+                
+            } catch (Exception exp) {
+                throw exp;
+            } finally {
+                if (objResponse != null)
+                    objResponse.Close();
+                objRequest = null;
+                ar = null;
+                objResponse = null;
+                objs = null;
+            }
+            
+        }
+
+        protected void GetScrapingResponse(IAsyncResult result) {
 
         }
 
@@ -1367,7 +1462,6 @@ namespace Plex.Client.Win32
             BringWindowToTop(new IntPtr(ie.HWND));
         }
 
-
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool BringWindowToTop( IntPtr hWnd );
 
@@ -1431,6 +1525,10 @@ namespace Plex.Client.Win32
         }
 
         #endregion
+
+        
+
+       
         
     }
 

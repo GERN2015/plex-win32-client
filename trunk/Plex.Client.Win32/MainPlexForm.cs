@@ -109,18 +109,25 @@ namespace Plex.Client.Win32
                     XmlDocument doc = new XmlDocument();
                     doc.LoadXml(node.OuterXml);
                     XmlNode videoNode = doc.SelectSingleNode("Video");
-                    _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
+                    XmlNode mediaPart = doc.SelectSingleNode("//Media/Part");
+                    
+                    if (mediaPart != null) {
 
-                    if (videoNode.Attributes["viewCount"] != null) {
-                        
-                        viewCount = videoNode.Attributes["viewCount"].Value;
-                        mnuUnwatched.Visible = true;
-                        mnuWatched.Visible = false;
-                    } else {
-                        mnuUnwatched.Visible = false;
-                        mnuWatched.Visible = true;                       
+                        if (!string.IsNullOrEmpty(mediaPart.Attributes["file"].Value)) {
+                            _currentRatingKey = videoNode.Attributes["ratingKey"].Value;
+
+                            if (videoNode.Attributes["viewCount"] != null) {
+
+                                viewCount = videoNode.Attributes["viewCount"].Value;
+                                mnuUnwatched.Visible = true;
+                                mnuWatched.Visible = false;
+                            } else {
+                                mnuUnwatched.Visible = false;
+                                mnuWatched.Visible = true;
+                            }
+                            contextMenu.Show(Cursor.Position);
+                        }
                     }
-                    contextMenu.Show(Cursor.Position);
                 }
             }
         }
